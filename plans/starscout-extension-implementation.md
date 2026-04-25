@@ -79,13 +79,13 @@ Create the import workflow that can connect to a restored StarScout MongoDB dump
 
 ### Acceptance criteria
 
-- [ ] Importer can run locally against a small fixture shaped like the StarScout MongoDB collections.
-- [ ] Importer stores one deduped suspicious-star fact per `repo + actor + starred_at`.
-- [ ] Importer preserves whether each fact came from low-activity, lockstep, or both.
-- [ ] Importer records an import run with source metadata and row counts.
-- [ ] Importer can be rerun idempotently for the same source dataset without duplicating facts.
-- [ ] Backend tests prove overlap is not double-counted.
-- [ ] Backend tests prove aggregate counts are derived from deduped facts.
+- [x] Importer can run locally against a small fixture shaped like the StarScout MongoDB collections.
+- [x] Importer stores one deduped suspicious-star fact per `repo + actor + starred_at`.
+- [x] Importer preserves whether each fact came from low-activity, lockstep, or both.
+- [x] Importer records an import run with source metadata and row counts.
+- [x] Importer can be rerun idempotently for the same source dataset without duplicating facts.
+- [x] Backend tests prove overlap is not double-counted.
+- [x] Backend tests prove aggregate counts are derived from deduped facts.
 
 ## Phase 3: Repo Aggregates And Star Integrity API
 
