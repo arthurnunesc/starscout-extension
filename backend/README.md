@@ -22,3 +22,11 @@ Tests:
 ```sh
 uv run pytest
 ```
+
+Phase 2 importer skeleton:
+
+```sh
+uv run python -m starscout_api.importer.cli
+```
+
+The importer expects a restored StarScout MongoDB dataset and a reachable Postgres database. See the root docs for environment variables and local service setup.

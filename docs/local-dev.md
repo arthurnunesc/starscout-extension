@@ -46,6 +46,21 @@ cd backend
 uv run pytest
 ```
 
+Run the importer skeleton against a restored StarScout MongoDB source:
+
+```sh
+cd backend
+uv run python -m starscout_api.importer.cli
+```
+
+For the Phase 2 Postgres integration test, export a database DSN and run only the integration test file:
+
+```sh
+export TEST_POSTGRES_DSN="postgresql://starscout:starscout_dev_password@localhost:5432/starscout"
+cd backend
+uv run pytest tests/integration/importer/test_postgres_import.py
+```
+
 ## Run Extension
 
 ```sh

@@ -8,6 +8,9 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     enable_docs: bool = True
     database_url: str = "postgresql://starscout:starscout_dev_password@localhost:5432/starscout"
+    mongodb_url: str = "mongodb://localhost:27017"
+    mongodb_database: str = "fake_stars"
+    analyzed_through: str = "2025-01-01"
 
     model_config = SettingsConfigDict(
         env_file=".env",

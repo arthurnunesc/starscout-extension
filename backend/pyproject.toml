@@ -6,7 +6,9 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
   "fastapi>=0.115.0",
+  "psycopg[binary]>=3.2.0",
   "pydantic-settings>=2.6.0",
+  "pymongo>=4.10.0",
   "uvicorn[standard]>=0.32.0",
 ]
 
@@ -27,6 +29,9 @@ packages = ["src/starscout_api"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+markers = [
+  "integration: tests that require external services",
+]
 
 [tool.ruff]
 line-length = 100
