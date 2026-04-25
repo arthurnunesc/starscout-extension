@@ -61,13 +61,13 @@ Create the monorepo foundation for extension, backend, importer, and local infra
 
 ### Acceptance criteria
 
-- [ ] Monorepo structure separates extension, API/importer, shared docs, and infrastructure concerns.
-- [ ] Python backend project uses `uv` with locked dependencies.
-- [ ] Extension project uses WXT + React.
-- [ ] Local Docker Compose starts Postgres and any required import-time services.
-- [ ] Environment variables are documented with safe example values.
-- [ ] `GET /health` can run locally and return a healthy response.
-- [ ] No secrets are committed.
+- [x] Monorepo structure separates extension, API/importer, shared docs, and infrastructure concerns.
+- [x] Python backend project uses `uv` with locked dependencies.
+- [x] Extension project uses WXT + React.
+- [x] Local Docker Compose starts Postgres and any required import-time services.
+- [x] Environment variables are documented with safe example values.
+- [x] `GET /health` can run locally and return a healthy response.
+- [x] No secrets are committed.
 
 ## Phase 2: StarScout Dataset Import Skeleton
 

@@ -1,0 +1,24 @@
+# Python
+backend/.venv/
+backend/.pytest_cache/
+backend/.ruff_cache/
+backend/__pycache__/
+backend/**/*.pyc
+
+# Node / WXT
+extension/node_modules/
+extension/.wxt/
+extension/.output/
+
+# Local environment
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
