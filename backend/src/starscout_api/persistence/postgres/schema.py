@@ -29,4 +29,13 @@ CREATE TABLE IF NOT EXISTS repo_aggregates (
     overlap_count INTEGER NOT NULL,
     analyzed_through TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS github_repo_cache (
+    repo TEXT PRIMARY KEY,
+    canonical_full_name TEXT NOT NULL,
+    github_repo_id BIGINT NOT NULL,
+    github_node_id TEXT NOT NULL,
+    stargazers_count INTEGER NOT NULL,
+    fetched_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 """

@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     mongodb_url: str = "mongodb://localhost:27017"
     mongodb_database: str = "fake_stars"
     analyzed_through: str = "2025-01-01"
+    github_token: str | None = None
+    github_repo_cache_ttl_seconds: int = 3600
 
     model_config = SettingsConfigDict(
         env_file=".env",

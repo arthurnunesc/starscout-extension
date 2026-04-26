@@ -3,6 +3,7 @@ from typing import Protocol
 from starscout_api.integrity.models import (
     IntegrityBreakdown,
     RepoAggregateRecord,
+    StarCountSnapshot,
     StarIntegrityResult,
 )
 
@@ -14,12 +15,17 @@ class RepoAggregateRepository(Protocol):
 
 
 class StarCountProvider(Protocol):
-    def get_current_stars(self, aggregate: RepoAggregateRecord) -> int: ...
+    def get_current_stars(self, aggregate: RepoAggregateRecord) -> StarCountSnapshot: ...
 
 
 class AggregateStarCountProvider:
-    def get_current_stars(self, aggregate: RepoAggregateRecord) -> int:
-        return aggregate.suspected_non_legit_stars
+    def get_current_stars(self, aggregate: RepoAggregateRecord) -> StarCountSnapshot:
+        return StarCountSnapshot(
+            repo=aggregate.repo,
+            github_repo_id=None,
+            current_stars=aggregate.suspected_non_legit_stars,
+            warnings=[],
+        )
 
 
 class StarIntegrityService:
@@ -48,16 +54,17 @@ class StarIntegrityService:
                 warnings=["Repository has no StarScout suspicious-star aggregate."],
             )
 
-        current_stars = self._star_counts.get_current_stars(aggregate)
+        star_count = self._star_counts.get_current_stars(aggregate)
+        current_stars = star_count.current_stars
         suspected = aggregate.suspected_non_legit_stars
-        warnings: list[str] = []
+        warnings = list(star_count.warnings)
         if current_stars < suspected:
             warnings.append("Current star count is lower than suspected suspicious-star count.")
 
         return StarIntegrityResult(
-            repo=aggregate.repo,
+            repo=star_count.repo,
             analyzed=True,
-            github_repo_id=None,
+            github_repo_id=star_count.github_repo_id,
             current_stars=current_stars,
             suspected_non_legit_stars=suspected,
             estimated_legit_stars=max(current_stars - suspected, 0),

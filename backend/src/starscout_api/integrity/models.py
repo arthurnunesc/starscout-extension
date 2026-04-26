@@ -19,6 +19,14 @@ class IntegrityBreakdown:
 
 
 @dataclass(frozen=True)
+class StarCountSnapshot:
+    repo: str
+    github_repo_id: int | None
+    current_stars: int
+    warnings: list[str]
+
+
+@dataclass(frozen=True)
 class StarIntegrityResult:
     repo: str
     analyzed: bool

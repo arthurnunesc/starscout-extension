@@ -20,6 +20,8 @@ All backend variables use the `STARSCOUT_` prefix.
 - `STARSCOUT_MONGODB_URL` - MongoDB connection string for the restored StarScout source dataset.
 - `STARSCOUT_MONGODB_DATABASE` - MongoDB database name containing the restored StarScout collections.
 - `STARSCOUT_ANALYZED_THROUGH` - dataset cutoff date used by the importer and future aggregates.
+- `STARSCOUT_GITHUB_TOKEN` - optional GitHub token for higher REST API rate limits.
+- `STARSCOUT_GITHUB_REPO_CACHE_TTL_SECONDS` - number of seconds to reuse cached GitHub repository metadata.
 
 ## Test-only Environment Variables
 

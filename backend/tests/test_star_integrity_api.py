@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 
 from starscout_api.api import get_star_integrity_service
-from starscout_api.integrity.models import RepoAggregateRecord
+from starscout_api.integrity.models import RepoAggregateRecord, StarCountSnapshot
 from starscout_api.integrity.service import StarIntegrityService
 from starscout_api.main import create_app
 
@@ -15,8 +15,13 @@ class FakeAggregateRepository:
 
 
 class FixedStarCountProvider:
-    def get_current_stars(self, aggregate: RepoAggregateRecord) -> int:
-        return 100
+    def get_current_stars(self, aggregate: RepoAggregateRecord) -> StarCountSnapshot:
+        return StarCountSnapshot(
+            repo="canonical/repo",
+            github_repo_id=123,
+            current_stars=100,
+            warnings=[],
+        )
 
 
 def test_star_integrity_api_returns_analyzed_repo_metrics() -> None:
@@ -42,9 +47,9 @@ def test_star_integrity_api_returns_analyzed_repo_metrics() -> None:
 
     assert response.status_code == 200
     assert response.json() == {
-        "repo": "owner/repo",
+        "repo": "canonical/repo",
         "analyzed": True,
-        "githubRepoId": None,
+        "githubRepoId": 123,
         "currentStars": 100,
         "suspectedNonLegitStars": 25,
         "estimatedLegitStars": 75,

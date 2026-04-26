@@ -23,8 +23,9 @@ Repo star integrity API:
 curl http://127.0.0.1:8000/repos/owner/repo/star-integrity
 ```
 
-The Phase 3 API reads aggregate suspicious-star metrics from Postgres and returns only
-repo-level counts. It does not expose suspected actor identities.
+The API reads aggregate suspicious-star metrics from Postgres, fetches current GitHub
+star counts through the GitHub REST API, and returns only repo-level counts. It does
+not expose suspected actor identities.
 
 Tests:
 

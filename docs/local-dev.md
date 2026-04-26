@@ -46,7 +46,8 @@ curl http://127.0.0.1:8000/repos/owner/repo/star-integrity
 ```
 
 The endpoint returns analyzed aggregate metrics when `repo_aggregates` has a row for
-the repo, and a neutral not-analyzed response when it does not.
+the repo, uses GitHub REST metadata for current star counts, and returns a neutral
+not-analyzed response when no aggregate exists.
 
 Run backend tests:
 

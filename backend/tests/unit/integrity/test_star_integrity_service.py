@@ -1,4 +1,4 @@
-from starscout_api.integrity.models import RepoAggregateRecord
+from starscout_api.integrity.models import RepoAggregateRecord, StarCountSnapshot
 from starscout_api.integrity.service import StarIntegrityService
 
 
@@ -14,8 +14,13 @@ class FixedStarCountProvider:
     def __init__(self, current_stars: int) -> None:
         self._current_stars = current_stars
 
-    def get_current_stars(self, aggregate: RepoAggregateRecord) -> int:
-        return self._current_stars
+    def get_current_stars(self, aggregate: RepoAggregateRecord) -> StarCountSnapshot:
+        return StarCountSnapshot(
+            repo=aggregate.repo,
+            github_repo_id=123,
+            current_stars=self._current_stars,
+            warnings=[],
+        )
 
 
 def test_integrity_result_contains_aggregate_metrics_and_percentage() -> None:
@@ -36,6 +41,7 @@ def test_integrity_result_contains_aggregate_metrics_and_percentage() -> None:
 
     assert result.analyzed is True
     assert result.repo == "owner/repo"
+    assert result.github_repo_id == 123
     assert result.current_stars == 100
     assert result.suspected_non_legit_stars == 25
     assert result.estimated_legit_stars == 75

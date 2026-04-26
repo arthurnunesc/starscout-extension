@@ -5,9 +5,15 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from starscout_api.core.db import connect_postgres
+from starscout_api.core.settings import get_settings
+from starscout_api.github.client import GitHubClient
 from starscout_api.integrity.models import StarIntegrityResult
 from starscout_api.integrity.service import StarIntegrityService
-from starscout_api.persistence.postgres.repositories import PostgresRepoAggregateRepository
+from starscout_api.integrity.star_counts import GitHubStarCountProvider
+from starscout_api.persistence.postgres.repositories import (
+    PostgresGitHubRepoCache,
+    PostgresRepoAggregateRepository,
+)
 
 router = APIRouter()
 
@@ -39,8 +45,16 @@ class StarIntegrityResponse(BaseModel):
 
 
 def get_star_integrity_service() -> StarIntegrityService:
+    settings = get_settings()
     connection = connect_postgres()
-    return StarIntegrityService(PostgresRepoAggregateRepository(connection))
+    return StarIntegrityService(
+        PostgresRepoAggregateRepository(connection),
+        GitHubStarCountProvider(
+            GitHubClient(token=settings.github_token),
+            PostgresGitHubRepoCache(connection),
+            settings.github_repo_cache_ttl_seconds,
+        ),
+    )
 
 
 @router.get(

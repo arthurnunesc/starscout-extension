@@ -1,8 +1,10 @@
 from collections.abc import Sequence
+from datetime import UTC, datetime, timedelta
 from typing import Protocol
 
 from psycopg import Connection
 
+from starscout_api.github.client import GitHubRepositoryMetadata
 from starscout_api.importer.models import ImportSnapshot, RepoAggregate, SuspiciousStarFact
 from starscout_api.integrity.models import RepoAggregateRecord
 from starscout_api.persistence.postgres.schema import SCHEMA_SQL
@@ -158,3 +160,72 @@ class PostgresRepoAggregateRepository:
             overlap_count=row[4],
             analyzed_through=row[5],
         )
+
+
+class PostgresGitHubRepoCache:
+    def __init__(self, connection: Connection) -> None:
+        self._connection = connection
+
+    def get_fresh(self, repo: str, ttl: timedelta) -> GitHubRepositoryMetadata | None:
+        with self._connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT
+                    canonical_full_name,
+                    github_repo_id,
+                    github_node_id,
+                    stargazers_count,
+                    fetched_at
+                FROM github_repo_cache
+                WHERE repo = %s
+                """,
+                (repo,),
+            )
+            row = cursor.fetchone()
+
+        if row is None:
+            return None
+
+        fetched_at = row[4]
+        if fetched_at.tzinfo is None:
+            fetched_at = fetched_at.replace(tzinfo=UTC)
+        if fetched_at < datetime.now(UTC) - ttl:
+            return None
+
+        return GitHubRepositoryMetadata(
+            repo=row[0],
+            github_repo_id=row[1],
+            github_node_id=row[2],
+            current_stars=row[3],
+        )
+
+    def save(self, repo: str, metadata: GitHubRepositoryMetadata) -> None:
+        with self._connection.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO github_repo_cache (
+                    repo,
+                    canonical_full_name,
+                    github_repo_id,
+                    github_node_id,
+                    stargazers_count,
+                    fetched_at
+                )
+                VALUES (%s, %s, %s, %s, %s, NOW())
+                ON CONFLICT (repo)
+                DO UPDATE SET
+                    canonical_full_name = EXCLUDED.canonical_full_name,
+                    github_repo_id = EXCLUDED.github_repo_id,
+                    github_node_id = EXCLUDED.github_node_id,
+                    stargazers_count = EXCLUDED.stargazers_count,
+                    fetched_at = NOW()
+                """,
+                (
+                    repo,
+                    metadata.repo,
+                    metadata.github_repo_id,
+                    metadata.github_node_id,
+                    metadata.current_stars,
+                ),
+            )
+        self._connection.commit()

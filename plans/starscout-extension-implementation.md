@@ -115,13 +115,13 @@ Add GitHub repository lookup and current star-count caching to make the denomina
 
 ### Acceptance criteria
 
-- [ ] Backend fetches current repository metadata from GitHub REST for public repos.
-- [ ] Backend caches `stargazers_count` with a configured TTL.
-- [ ] Backend stores GitHub repo ID, node ID, and canonical full name when available.
-- [ ] Backend follows GitHub repository redirects or canonical name responses where supported.
-- [ ] API response uses current GitHub stars as the percentage denominator.
-- [ ] API returns a data-quality warning when current stars are lower than suspicious stars.
-- [ ] Backend tests mock GitHub responses for success, not found, rate limit, and count mismatch.
+- [x] Backend fetches current repository metadata from GitHub REST for public repos.
+- [x] Backend caches `stargazers_count` with a configured TTL.
+- [x] Backend stores GitHub repo ID, node ID, and canonical full name when available.
+- [x] Backend follows GitHub repository redirects or canonical name responses where supported.
+- [x] API response uses current GitHub stars as the percentage denominator.
+- [x] API returns a data-quality warning when current stars are lower than suspicious stars.
+- [x] Backend tests mock GitHub responses for success, not found, rate limit, and count mismatch.
 
 ## Phase 5: Public API Hardening
 
