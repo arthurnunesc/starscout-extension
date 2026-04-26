@@ -18,6 +18,10 @@ backend/.env
 backend/.env.*
 !backend/.env.example
 
+# Local StarScout dataset dumps
+mongodb.zip
+mongodb/
+
 # OS / editor
 .DS_Store
 .idea/

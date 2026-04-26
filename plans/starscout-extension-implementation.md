@@ -189,13 +189,13 @@ Run the importer against the restored Zenodo MongoDB dataset, populate Postgres 
 
 ### Acceptance criteria
 
-- [ ] Zenodo MongoDB dump restoration steps are documented.
-- [ ] Full import completes and records import-run metadata.
-- [ ] Import report includes source counts, deduped counts, aggregate counts, and overlap counts.
-- [ ] A known analyzed repo returns expected aggregate data from the API.
-- [ ] A known not-analyzed repo returns the not-analyzed state.
+- [x] Zenodo MongoDB dump restoration steps are documented.
+- [x] Full import completes and records import-run metadata.
+- [x] Import report includes source counts, deduped counts, aggregate counts, and overlap counts.
+- [x] A known analyzed repo returns expected aggregate data from the API.
+- [x] A known not-analyzed repo returns the not-analyzed state.
 - [ ] Extension displays correct analyzed and not-analyzed states against local backend.
-- [ ] Backend test suite passes after full import-related changes.
+- [x] Backend test suite passes after full import-related changes.
 
 ## Phase 9: Docker Compose Beta Deployment
 

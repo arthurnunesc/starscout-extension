@@ -13,7 +13,7 @@ Install `uv` on macOS with:
 brew install uv
 ```
 
-## Start Postgres
+## Start Local Services
 
 ```sh
 docker compose --env-file .env.example -f infra/docker-compose.yml up -d
@@ -24,6 +24,18 @@ Check container health:
 ```sh
 docker compose --env-file .env.example -f infra/docker-compose.yml ps
 ```
+
+## Restore StarScout MongoDB Dump
+
+The Zenodo archive is expected at the repository root as `mongodb.zip`.
+
+```sh
+unzip -o mongodb.zip "mongodb/fake_stars/low_activity_stars*" "mongodb/fake_stars/clustered_stars*"
+docker run --rm --network host -v "$PWD/mongodb:/dump" mongo:8-noble \
+  mongorestore --gzip --drop --uri="mongodb://127.0.0.1:27017" /dump
+```
+
+Only the suspicious-star collections are required by the importer.
 
 ## Run Backend
 
