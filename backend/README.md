@@ -17,6 +17,15 @@ Health check:
 curl http://127.0.0.1:8000/health
 ```
 
+Repo star integrity API:
+
+```sh
+curl http://127.0.0.1:8000/repos/owner/repo/star-integrity
+```
+
+The Phase 3 API reads aggregate suspicious-star metrics from Postgres and returns only
+repo-level counts. It does not expose suspected actor identities.
+
 Tests:
 
 ```sh

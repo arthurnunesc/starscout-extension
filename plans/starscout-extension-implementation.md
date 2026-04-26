@@ -97,13 +97,13 @@ Expose the core repo integrity API from Postgres-backed aggregates using fixture
 
 ### Acceptance criteria
 
-- [ ] API returns aggregate suspicious-star metrics for an analyzed repo.
-- [ ] API returns a clear not-analyzed response for repos absent from StarScout aggregates.
-- [ ] API returns low-activity, lockstep, and overlap breakdowns.
-- [ ] API returns the StarScout analyzed-through cutoff date.
-- [ ] API never exposes suspected actor identities.
-- [ ] Backend tests cover success, not-analyzed, invalid owner/repo input, and percentage math.
-- [ ] Backend tests cover clamping when suspicious stars exceed denominator.
+- [x] API returns aggregate suspicious-star metrics for an analyzed repo.
+- [x] API returns a clear not-analyzed response for repos absent from StarScout aggregates.
+- [x] API returns low-activity, lockstep, and overlap breakdowns.
+- [x] API returns the StarScout analyzed-through cutoff date.
+- [x] API never exposes suspected actor identities.
+- [x] Backend tests cover success, not-analyzed, invalid owner/repo input, and percentage math.
+- [x] Backend tests cover clamping when suspicious stars exceed denominator.
 
 ## Phase 4: GitHub Metadata And Current Star Cache
 

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from starscout_api.api import router
 from starscout_api.core.settings import Settings, get_settings
 
 
@@ -15,6 +16,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @app.get("/health", tags=["system"])
     def health() -> dict[str, str]:
         return {"status": "ok", "service": app_settings.app_name}
+
+    app.include_router(router)
 
     return app
 

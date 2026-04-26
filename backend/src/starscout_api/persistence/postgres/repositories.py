@@ -4,6 +4,7 @@ from typing import Protocol
 from psycopg import Connection
 
 from starscout_api.importer.models import ImportSnapshot, RepoAggregate, SuspiciousStarFact
+from starscout_api.integrity.models import RepoAggregateRecord
 from starscout_api.persistence.postgres.schema import SCHEMA_SQL
 
 
@@ -122,3 +123,38 @@ class PostgresImportStore:
                     aggregate.analyzed_through,
                 ),
             )
+
+
+class PostgresRepoAggregateRepository:
+    def __init__(self, connection: Connection) -> None:
+        self._connection = connection
+
+    def get_by_repo(self, repo: str) -> RepoAggregateRecord | None:
+        with self._connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT
+                    repo,
+                    suspected_non_legit_stars,
+                    low_activity_count,
+                    lockstep_count,
+                    overlap_count,
+                    analyzed_through
+                FROM repo_aggregates
+                WHERE repo = %s
+                """,
+                (repo,),
+            )
+            row = cursor.fetchone()
+
+        if row is None:
+            return None
+
+        return RepoAggregateRecord(
+            repo=row[0],
+            suspected_non_legit_stars=row[1],
+            low_activity_count=row[2],
+            lockstep_count=row[3],
+            overlap_count=row[4],
+            analyzed_through=row[5],
+        )

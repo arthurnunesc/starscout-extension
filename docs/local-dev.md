@@ -39,6 +39,15 @@ Health check:
 curl http://127.0.0.1:8000/health
 ```
 
+Repo star integrity endpoint:
+
+```sh
+curl http://127.0.0.1:8000/repos/owner/repo/star-integrity
+```
+
+The endpoint returns analyzed aggregate metrics when `repo_aggregates` has a row for
+the repo, and a neutral not-analyzed response when it does not.
+
 Run backend tests:
 
 ```sh
