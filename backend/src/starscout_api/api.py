@@ -1,7 +1,6 @@
-import re
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, Path, Response
 from pydantic import BaseModel, Field
 
 from starscout_api.core.db import connect_postgres
@@ -17,7 +16,11 @@ from starscout_api.persistence.postgres.repositories import (
 
 router = APIRouter()
 
-_REPO_PART_PATTERN = re.compile(r"^[A-Za-z0-9_.-]+$")
+OwnerPath = Annotated[
+    str,
+    Path(pattern=r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$", max_length=39),
+]
+RepoPath = Annotated[str, Path(pattern=r"^[A-Za-z0-9_.-]+$", max_length=100)]
 
 
 class IntegrityBreakdownResponse(BaseModel):
@@ -64,15 +67,11 @@ def get_star_integrity_service() -> StarIntegrityService:
     tags=["repos"],
 )
 def get_star_integrity(
-    owner: str,
-    repo: str,
+    owner: OwnerPath,
+    repo: RepoPath,
+    response: Response,
     service: Annotated[StarIntegrityService, Depends(get_star_integrity_service)],
 ) -> StarIntegrityResult:
-    if not _is_valid_repo_part(owner) or not _is_valid_repo_part(repo):
-        raise HTTPException(status_code=422, detail="Invalid GitHub owner or repo name.")
-
+    max_age = get_settings().api_cache_max_age_seconds
+    response.headers["Cache-Control"] = f"public, max-age={max_age}"
     return service.get_integrity(f"{owner}/{repo}")
-
-
-def _is_valid_repo_part(value: str) -> bool:
-    return bool(value) and len(value) <= 100 and bool(_REPO_PART_PATTERN.fullmatch(value))

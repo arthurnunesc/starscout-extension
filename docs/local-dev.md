@@ -49,6 +49,10 @@ The endpoint returns analyzed aggregate metrics when `repo_aggregates` has a row
 the repo, uses GitHub REST metadata for current star counts, and returns a neutral
 not-analyzed response when no aggregate exists.
 
+Repo integrity responses are public-read and cacheable for the configured max age.
+The backend applies a per-client rate limit and CORS only for GitHub, local dev, and
+browser-extension origins. The API does not require user identity or extension IDs.
+
 Run backend tests:
 
 ```sh

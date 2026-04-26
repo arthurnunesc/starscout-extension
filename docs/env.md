@@ -22,6 +22,9 @@ All backend variables use the `STARSCOUT_` prefix.
 - `STARSCOUT_ANALYZED_THROUGH` - dataset cutoff date used by the importer and future aggregates.
 - `STARSCOUT_GITHUB_TOKEN` - optional GitHub token for higher REST API rate limits.
 - `STARSCOUT_GITHUB_REPO_CACHE_TTL_SECONDS` - number of seconds to reuse cached GitHub repository metadata.
+- `STARSCOUT_REPO_INTEGRITY_RATE_LIMIT_PER_MINUTE` - per-client request limit for repo integrity reads.
+- `STARSCOUT_CORS_ALLOW_ORIGIN_REGEX` - allowed browser origins for public read endpoints.
+- `STARSCOUT_API_CACHE_MAX_AGE_SECONDS` - `Cache-Control` max-age for safe public API responses.
 
 ## Test-only Environment Variables
 

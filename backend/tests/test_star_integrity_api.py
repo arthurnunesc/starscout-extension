@@ -1,6 +1,7 @@
 from fastapi.testclient import TestClient
 
 from starscout_api.api import get_star_integrity_service
+from starscout_api.core.settings import Settings
 from starscout_api.integrity.models import RepoAggregateRecord, StarCountSnapshot
 from starscout_api.integrity.service import StarIntegrityService
 from starscout_api.main import create_app
@@ -25,7 +26,7 @@ class FixedStarCountProvider:
 
 
 def test_star_integrity_api_returns_analyzed_repo_metrics() -> None:
-    app = create_app()
+    app = create_app(Settings(repo_integrity_rate_limit_per_minute=0))
     app.dependency_overrides[get_star_integrity_service] = lambda: StarIntegrityService(
         FakeAggregateRepository(
             {
@@ -46,6 +47,7 @@ def test_star_integrity_api_returns_analyzed_repo_metrics() -> None:
     response = client.get("/repos/owner/repo/star-integrity")
 
     assert response.status_code == 200
+    assert response.headers["cache-control"] == "public, max-age=300"
     assert response.json() == {
         "repo": "canonical/repo",
         "analyzed": True,
@@ -62,7 +64,7 @@ def test_star_integrity_api_returns_analyzed_repo_metrics() -> None:
 
 
 def test_star_integrity_api_returns_not_analyzed_state() -> None:
-    app = create_app()
+    app = create_app(Settings(repo_integrity_rate_limit_per_minute=0))
     app.dependency_overrides[get_star_integrity_service] = lambda: StarIntegrityService(
         FakeAggregateRepository({})
     )
@@ -80,7 +82,7 @@ def test_star_integrity_api_returns_not_analyzed_state() -> None:
 
 
 def test_star_integrity_api_rejects_invalid_owner_or_repo() -> None:
-    app = create_app()
+    app = create_app(Settings(repo_integrity_rate_limit_per_minute=0))
     app.dependency_overrides[get_star_integrity_service] = lambda: StarIntegrityService(
         FakeAggregateRepository({})
     )
@@ -89,3 +91,35 @@ def test_star_integrity_api_rejects_invalid_owner_or_repo() -> None:
     response = client.get("/repos/bad%20owner/repo/star-integrity")
 
     assert response.status_code == 422
+
+
+def test_star_integrity_api_rate_limits_repo_integrity_requests() -> None:
+    app = create_app(Settings(repo_integrity_rate_limit_per_minute=1))
+    app.dependency_overrides[get_star_integrity_service] = lambda: StarIntegrityService(
+        FakeAggregateRepository({})
+    )
+    client = TestClient(app)
+
+    first_response = client.get("/repos/owner/repo/star-integrity")
+    second_response = client.get("/repos/owner/repo/star-integrity")
+
+    assert first_response.status_code == 200
+    assert second_response.status_code == 429
+    assert second_response.json() == {"detail": "Rate limit exceeded."}
+
+
+def test_star_integrity_api_cors_allows_extension_and_github_read_origins() -> None:
+    app = create_app(Settings(repo_integrity_rate_limit_per_minute=0))
+    client = TestClient(app)
+
+    response = client.options(
+        "/repos/owner/repo/star-integrity",
+        headers={
+            "Origin": "https://github.com",
+            "Access-Control-Request-Method": "GET",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "https://github.com"
+    assert "GET" in response.headers["access-control-allow-methods"]

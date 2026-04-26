@@ -13,6 +13,12 @@ class Settings(BaseSettings):
     analyzed_through: str = "2025-01-01"
     github_token: str | None = None
     github_repo_cache_ttl_seconds: int = 3600
+    repo_integrity_rate_limit_per_minute: int = 60
+    cors_allow_origin_regex: str = (
+        r"^(https://github\.com|http://localhost(:\d+)?|http://127\.0\.0\.1(:\d+)?|"
+        r"chrome-extension://.+|moz-extension://.+)$"
+    )
+    api_cache_max_age_seconds: int = 300
 
     model_config = SettingsConfigDict(
         env_file=".env",

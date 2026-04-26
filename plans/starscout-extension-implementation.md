@@ -133,13 +133,13 @@ Harden the public read API so the extension can call it safely without user auth
 
 ### Acceptance criteria
 
-- [ ] API applies rate limits to repo integrity requests.
-- [ ] API accepts only valid public GitHub owner/repo path inputs.
-- [ ] API does not require user identity or extension-specific user identifiers.
-- [ ] API logs avoid long-lived per-user browsing history.
-- [ ] API responses are cacheable where safe.
-- [ ] CORS policy permits the intended extension/browser usage without opening unnecessary mutation surfaces.
-- [ ] Backend tests cover rate-limited responses and invalid input responses.
+- [x] API applies rate limits to repo integrity requests.
+- [x] API accepts only valid public GitHub owner/repo path inputs.
+- [x] API does not require user identity or extension-specific user identifiers.
+- [x] API logs avoid long-lived per-user browsing history.
+- [x] API responses are cacheable where safe.
+- [x] CORS policy permits the intended extension/browser usage without opening unnecessary mutation surfaces.
+- [x] Backend tests cover rate-limited responses and invalid input responses.
 
 ## Phase 6: Extension Repo Page Badge
 
