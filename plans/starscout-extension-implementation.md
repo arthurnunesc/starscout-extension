@@ -151,14 +151,14 @@ Implement the browser extension content script that detects public GitHub reposi
 
 ### Acceptance criteria
 
-- [ ] Extension detects `github.com/{owner}/{repo}` repository pages.
-- [ ] Extension ignores non-repo GitHub pages, private unsupported contexts, and non-GitHub hosts.
-- [ ] Extension sends only `owner/repo` to the backend.
-- [ ] Badge appears automatically after API response.
-- [ ] Badge displays suspected percentage for analyzed repos.
-- [ ] Badge displays a neutral not-analyzed state for repos absent from StarScout data.
-- [ ] Badge uses neutral styling and does not replace GitHub's native star count.
-- [ ] Manual verification steps are documented for loading the extension locally.
+- [x] Extension detects `github.com/{owner}/{repo}` repository pages.
+- [x] Extension ignores non-repo GitHub pages, private unsupported contexts, and non-GitHub hosts.
+- [x] Extension sends only `owner/repo` to the backend.
+- [x] Badge appears automatically after API response.
+- [x] Badge displays suspected percentage for analyzed repos.
+- [x] Badge displays a neutral not-analyzed state for repos absent from StarScout data.
+- [x] Badge uses neutral styling and does not replace GitHub's native star count.
+- [x] Manual verification steps are documented for loading the extension locally.
 
 ## Phase 7: Extension Popover Details And Attribution
 
