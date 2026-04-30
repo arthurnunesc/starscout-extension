@@ -33,7 +33,7 @@ type StarIntegrityResponse = {
 
 type BadgePlacement =
   | { mode: 'desktop-border-grid'; starStat: HTMLElement }
-  | { mode: 'mobile-responsive-meta'; container: HTMLElement };
+  | { mode: 'mobile-responsive-meta'; container: HTMLElement; repo: GitHubRepo };
 
 function installBadgeUpdater() {
   let lastUrl = '';
@@ -115,7 +115,7 @@ function parseGitHubRepo(location: Location): GitHubRepo | null {
 function findBadgePlacement(repo: GitHubRepo): BadgePlacement | null {
   const responsiveMeta = findResponsiveMetaContainer();
   if (responsiveMeta && isVisible(responsiveMeta)) {
-    return { mode: 'mobile-responsive-meta', container: responsiveMeta };
+    return { mode: 'mobile-responsive-meta', container: responsiveMeta, repo };
   }
 
   const borderGridStarStat = findBorderGridStarStat(repo);
@@ -170,24 +170,39 @@ function isVisible(element: HTMLElement): boolean {
   return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
 }
 
-function insertBadge(placement: BadgePlacement, text: string): HTMLButtonElement {
-  const container = document.createElement('div');
-  container.id = BADGE_ID;
-  const badge = createBadge(text, placement.mode);
-  container.append(badge);
-
+function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
   if (placement.mode === 'desktop-border-grid') {
+    const container = document.createElement('div');
+    container.id = BADGE_ID;
     container.className = 'mt-2';
+    const badge = createDesktopBadge(text);
+    container.append(badge);
     placement.starStat.insertAdjacentElement('afterend', container);
     return badge;
   }
 
-  container.style.cssText = ['display:inline-flex', 'align-items:center'].join(';');
-  placement.container.append(container);
+  // Mobile: create <a> matching GitHub stat link styling
+  const badge = document.createElement('a');
+  badge.id = BADGE_ID;
+  badge.className = 'Link--secondary no-underline d-block mr-2';
+  badge.role = 'listitem';
+  badge.href = '#';
+  badge.textContent = text;
+
+  // Insert between Stars and Forks
+  const starsLink = placement.container.querySelector<HTMLElement>(
+    `a[href="/${placement.repo.owner}/${placement.repo.repo}/stargazers"]`,
+  );
+  if (starsLink) {
+    starsLink.insertAdjacentElement('afterend', badge);
+  } else {
+    placement.container.append(badge);
+  }
+
   return badge;
 }
 
-function createBadge(text: string, mode: BadgePlacement['mode']): HTMLButtonElement {
+function createDesktopBadge(text: string): HTMLButtonElement {
   const badge = document.createElement('button');
   badge.type = 'button';
   badge.textContent = text;
@@ -246,7 +261,7 @@ function formatCollapsedBadgeText(result: StarIntegrityResponse): string {
 }
 
 function setBadgeExpanded(
-  badge: HTMLButtonElement,
+  badge: HTMLElement,
   result: StarIntegrityResponse,
   expanded: boolean,
 ) {
