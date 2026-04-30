@@ -181,12 +181,17 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
     return badge;
   }
 
-  // Mobile: create <a> matching GitHub stat link styling with bold first part
+  // Mobile: create <a> matching GitHub stat link styling with icon + bold value + label
   const badge = document.createElement('a');
   badge.id = BADGE_ID;
   badge.className = 'Link--secondary no-underline d-block mr-2';
   badge.role = 'listitem';
   badge.href = '#';
+
+  // Star icon SVG
+  badge.innerHTML = `<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-star mr-1 tmp-mr-1">
+    <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path>
+  </svg>`;
 
   // Split text into bold part and rest
   const match = text.match(/^(.+?)\s+-\s+(.+)$/);
@@ -194,9 +199,9 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
     const boldPart = document.createElement('span');
     boldPart.className = 'text-bold color-fg-default';
     boldPart.textContent = match[1];
-    badge.append(boldPart, ` - ${match[2]}`);
+    badge.append(boldPart, ` ${match[2]}`);
   } else {
-    badge.textContent = text;
+    badge.append(text);
   }
 
   // Insert between Stars and Forks
@@ -299,16 +304,18 @@ function setBadgeExpanded(
       badge.append(text);
     }
   } else if (badge.tagName === 'A') {
-    // Mobile: update with bold span
+    // Mobile: preserve SVG, update with bold span
+    const svg = badge.querySelector('svg');
     badge.innerHTML = '';
+    if (svg) badge.append(svg);
     const match = text.match(/^(.+?)\s+-\s+(.+)$/);
     if (match) {
       const boldPart = document.createElement('span');
       boldPart.className = 'text-bold color-fg-default';
       boldPart.textContent = match[1];
-      badge.append(boldPart, ` - ${match[2]}`);
+      badge.append(boldPart, ` ${match[2]}`);
     } else {
-      badge.textContent = text;
+      badge.append(text);
     }
   } else {
     // Fallback
