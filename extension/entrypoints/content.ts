@@ -201,7 +201,7 @@ function insertBadge(placement: BadgePlacement, text: string, percent: number | 
   const match = text.match(/^(.+?)\s+-\s+(.+)$/);
   if (match) {
     const boldPart = document.createElement('span');
-    boldPart.className = 'text-bold color-fg-default';
+    boldPart.className = percent !== null ? 'text-bold' : 'text-bold color-fg-default';
     boldPart.textContent = match[1];
     if (percent !== null) boldPart.style.cssText = percentColor(percent);
     badge.append(boldPart, ` - ${match[2]}`);
@@ -282,7 +282,7 @@ function updateBadgeText(badge: HTMLElement, result: StarIntegrityResponse): voi
   if (match) {
     if (badge.classList.contains('Link--secondary')) {
       const boldPart = document.createElement('span');
-      boldPart.className = 'text-bold color-fg-default';
+      boldPart.className = percent !== null ? 'text-bold' : 'text-bold color-fg-default';
       boldPart.textContent = match[1];
       if (percent !== null) boldPart.style.cssText = percentColor(percent);
       badge.append(boldPart, ` - ${match[2]}`);
