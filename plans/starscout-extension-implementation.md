@@ -225,13 +225,13 @@ Prepare the project for a dev-loaded beta with clear installation, usage, limita
 
 ### Acceptance criteria
 
-- [ ] README explains what the extension does and does not claim.
-- [ ] README documents dev-loaded extension installation.
-- [ ] README documents backend configuration for local and deployed APIs.
-- [ ] README documents privacy posture and what data is sent to the backend.
-- [ ] README documents StarScout/paper/Zenodo attribution.
-- [ ] Manual QA checklist covers analyzed repo, not-analyzed repo, count mismatch fixture, GitHub navigation, and extension reload.
-- [ ] Known limitations are documented, including public GitHub only, no private repos, no actor evidence, and dataset cutoff.
+- [x] README explains what the extension does and does not claim.
+- [x] README documents dev-loaded extension installation.
+- [x] README documents backend configuration for local and deployed APIs.
+- [x] README documents privacy posture and what data is sent to the backend.
+- [x] README documents StarScout/paper/Zenodo attribution.
+- [x] Manual QA checklist covers analyzed repo, not-analyzed repo, count mismatch fixture, GitHub navigation, and extension reload.
+- [x] Known limitations are documented, including public GitHub only, no private repos, no actor evidence, and dataset cutoff.
 
 ## Out Of Scope For This Plan
 
