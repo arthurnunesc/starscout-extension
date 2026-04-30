@@ -32,13 +32,17 @@ type StarIntegrityResponse = {
 
 function installBadgeUpdater() {
   let lastUrl = '';
+  let retryTimer: number | undefined;
 
   const update = () => {
-    if (lastUrl === window.location.href) {
+    const repo = parseGitHubRepo(window.location);
+    if (lastUrl === window.location.href && (!repo || document.getElementById(BADGE_ID))) {
       return;
     }
+
     lastUrl = window.location.href;
-    void refreshBadge();
+    window.clearTimeout(retryTimer);
+    retryTimer = window.setTimeout(() => void refreshBadge(), 150);
   };
 
   update();
