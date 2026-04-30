@@ -74,11 +74,17 @@ async function refreshBadge() {
   try {
     const result = await fetchStarIntegrity(repo);
     console.info('[StarScout] API response received', result);
-    badge.textContent = formatBadgeText(result);
+    setBadgeExpanded(badge, result, true);
     badge.title = 'Heuristic StarScout suspected non-legit star signal';
     badge.addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
+      const expanded = badge.dataset.expanded !== 'false';
+      setBadgeExpanded(badge, result, !expanded);
+      if (expanded) {
+        removePopover();
+        return;
+      }
       togglePopover(badge, result);
     });
   } catch (error) {
@@ -130,8 +136,10 @@ function createBadge(text: string): HTMLButtonElement {
   badge.style.cssText = [
     'display:inline-flex',
     'align-items:center',
-    'margin-left:8px',
-    'padding:2px 7px',
+    'align-self:center',
+    'gap:4px',
+    'margin:0 0 0 8px',
+    'padding:0 6px',
     'border:1px solid var(--borderColor-default, #d0d7de)',
     'border-radius:999px',
     'background:var(--bgColor-muted, #f6f8fa)',
@@ -139,7 +147,9 @@ function createBadge(text: string): HTMLButtonElement {
     'cursor:pointer',
     'font-size:12px',
     'font-weight:500',
+    'height:20px',
     'line-height:18px',
+    'font-family:inherit',
     'white-space:nowrap',
   ].join(';');
   return badge;
@@ -163,10 +173,28 @@ async function fetchStarIntegrity(repo: GitHubRepo): Promise<StarIntegrityRespon
 
 function formatBadgeText(result: StarIntegrityResponse): string {
   if (!result.analyzed || result.suspectedNonLegitPercent === null) {
-    return 'StarScout: not analyzed';
+    return 'StarScout not analyzed';
   }
 
-  return `StarScout: ${result.suspectedNonLegitPercent}% suspected`;
+  return `StarScout ${result.suspectedNonLegitPercent}% suspected`;
+}
+
+function formatCollapsedBadgeText(result: StarIntegrityResponse): string {
+  if (!result.analyzed || result.suspectedNonLegitPercent === null) {
+    return 'SS';
+  }
+
+  return `SS ${result.suspectedNonLegitPercent}%`;
+}
+
+function setBadgeExpanded(
+  badge: HTMLButtonElement,
+  result: StarIntegrityResponse,
+  expanded: boolean,
+) {
+  badge.dataset.expanded = String(expanded);
+  badge.setAttribute('aria-expanded', String(expanded));
+  badge.textContent = expanded ? formatBadgeText(result) : formatCollapsedBadgeText(result);
 }
 
 function togglePopover(anchor: HTMLElement, result: StarIntegrityResponse) {
