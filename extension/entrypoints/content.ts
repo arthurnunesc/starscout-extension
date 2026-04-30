@@ -168,18 +168,19 @@ function isVisible(element: HTMLElement): boolean {
 
 function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
   if (placement.mode === 'desktop-border-grid') {
+    const container = document.createElement('div');
+    container.id = BADGE_ID;
+    container.className = 'mt-2';
     const badge = createDesktopBadge(text);
-    const wrapper = document.createElement('div');
-    wrapper.id = BADGE_ID;
-    wrapper.append(badge);
-    placement.starStat.append(wrapper);
+    container.append(badge);
+    placement.starStat.insertAdjacentElement('afterend', container);
     return badge;
   }
 
   // Mobile: create <a> matching GitHub stat link styling with icon + bold value + label
   const badge = document.createElement('a');
   badge.id = BADGE_ID;
-  badge.className = 'Link--secondary no-underline d-block mr-2 mt-2';
+  badge.className = 'Link--secondary no-underline d-block mr-2';
   badge.role = 'listitem';
   badge.href = '#';
 
