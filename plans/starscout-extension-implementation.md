@@ -209,8 +209,8 @@ Package the backend, Postgres, and operational configuration for a Docker Compos
 
 - [x] Docker Compose can run the API and Postgres on a VPS.
 - [x] Deployment documentation covers environment variables, secrets, database migration/import, and restart behavior.
-- [ ] API health route works on the deployed host.
-- [ ] Repo integrity route works on the deployed host for analyzed and not-analyzed repos.
+- [x] API health route works on the deployed host.
+- [x] Repo integrity route works on the deployed host for analyzed and not-analyzed repos.
 - [x] Rate limiting is enabled in deployment.
 - [x] Minimal logging configuration is documented.
 - [x] Extension can be configured to use the deployed backend.
