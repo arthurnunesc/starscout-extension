@@ -31,6 +31,10 @@ type StarIntegrityResponse = {
   warnings: string[];
 };
 
+type BadgePlacement =
+  | { mode: 'desktop-star-subrow'; starItem: HTMLElement }
+  | { mode: 'mobile-inline-stat'; starStat: HTMLElement };
+
 function installBadgeUpdater() {
   let lastUrl = '';
   let retryTimer: number | undefined;
@@ -62,14 +66,13 @@ async function refreshBadge() {
     return;
   }
 
-  const anchor = findBadgeAnchor(repo);
-  if (!anchor) {
+  const placement = findBadgePlacement(repo);
+  if (!placement) {
     console.debug('[StarScout] badge anchor not found yet', repo);
     return;
   }
 
-  const badge = createBadge('StarScout: checking');
-  anchor.insertAdjacentElement('afterend', badge);
+  const badge = insertBadge(placement, 'StarScout checking');
 
   try {
     const result = await fetchStarIntegrity(repo);
@@ -109,47 +112,82 @@ function parseGitHubRepo(location: Location): GitHubRepo | null {
   return { owner, repo };
 }
 
-function findBadgeAnchor(repo: GitHubRepo): HTMLElement | null {
-  const repoTitle = document.querySelector<HTMLElement>(
-    '#repository-container-header strong[itemprop="name"]',
-  );
-  if (repoTitle) {
-    return repoTitle;
+function findBadgePlacement(repo: GitHubRepo): BadgePlacement | null {
+  const desktopStarItem = findDesktopStarItem();
+  if (desktopStarItem && isVisible(desktopStarItem)) {
+    return { mode: 'desktop-star-subrow', starItem: desktopStarItem };
   }
 
-  const starLink = document.querySelector<HTMLElement>(
-    `a[href="/${repo.owner}/${repo.repo}/stargazers"]`,
-  );
-  if (starLink) {
-    return starLink;
+  const mobileStarStat = findMobileStarStat(repo);
+  if (mobileStarStat) {
+    return { mode: 'mobile-inline-stat', starStat: mobileStarStat };
   }
 
-  const starCounter = document.querySelector<HTMLElement>('#repo-stars-counter-star');
-  return starCounter?.closest<HTMLElement>('a, button, li') ?? null;
+  return null;
 }
 
-function createBadge(text: string): HTMLButtonElement {
+function findDesktopStarItem(): HTMLElement | null {
+  const starCounter = document.querySelector<HTMLElement>('#repo-stars-counter-star');
+  return starCounter?.closest<HTMLElement>('#repository-details-container ul.pagehead-actions > li') ?? null;
+}
+
+function findMobileStarStat(repo: GitHubRepo): HTMLElement | null {
+  const links = document.querySelectorAll<HTMLElement>(
+    `a[href="/${repo.owner}/${repo.repo}/stargazers"]`,
+  );
+
+  for (const link of links) {
+    const stat = link.closest<HTMLElement>('.mt-2');
+    if (stat && !stat.closest('#repository-details-container')) {
+      return stat;
+    }
+  }
+
+  return null;
+}
+
+function isVisible(element: HTMLElement): boolean {
+  return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
+}
+
+function insertBadge(placement: BadgePlacement, text: string): HTMLButtonElement {
+  const container = document.createElement('div');
+  container.id = BADGE_ID;
+  const badge = createBadge(text, placement.mode);
+  container.append(badge);
+
+  if (placement.mode === 'desktop-star-subrow') {
+    container.style.cssText = ['margin-top:4px', 'text-align:right', 'line-height:1'].join(';');
+    placement.starItem.append(container);
+    return badge;
+  }
+
+  container.className = 'mt-2';
+  placement.starStat.insertAdjacentElement('afterend', container);
+  return badge;
+}
+
+function createBadge(text: string, mode: BadgePlacement['mode']): HTMLButtonElement {
   const badge = document.createElement('button');
-  badge.id = BADGE_ID;
   badge.type = 'button';
   badge.textContent = text;
+  badge.className = mode === 'mobile-inline-stat' ? 'Link--muted' : '';
   badge.style.cssText = [
     'display:inline-flex',
     'align-items:center',
     'align-self:center',
-    'gap:4px',
-    'margin:0 0 0 8px',
-    'padding:0 6px',
-    'border:1px solid var(--borderColor-default, #d0d7de)',
-    'border-radius:999px',
-    'background:var(--bgColor-muted, #f6f8fa)',
+    'gap:6px',
+    'margin:0',
+    'padding:0',
+    'border:0',
+    'background:transparent',
     'color:var(--fgColor-muted, #57606a)',
     'cursor:pointer',
     'font-size:12px',
-    'font-weight:500',
-    'height:20px',
-    'line-height:18px',
+    'font-weight:400',
+    'line-height:16px',
     'font-family:inherit',
+    'text-align:left',
     'white-space:nowrap',
   ].join(';');
   return badge;
