@@ -176,6 +176,7 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
     container.id = BADGE_ID;
     container.className = 'mt-2';
     const badge = createDesktopBadge(text);
+    badge.dataset.mode = 'desktop';
     container.append(badge);
     placement.starStat.insertAdjacentElement('afterend', container);
     return badge;
@@ -185,6 +186,7 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
   const badge = document.createElement('a');
   badge.id = BADGE_ID;
   badge.className = 'Link--secondary no-underline d-block mr-2';
+  badge.dataset.mode = 'mobile';
   badge.role = 'listitem';
   badge.href = '#';
 
@@ -282,11 +284,11 @@ function setBadgeExpanded(
   badge.setAttribute('aria-expanded', String(expanded));
   const text = expanded ? formatBadgeText(result) : formatCollapsedBadgeText(result);
 
-  // Check if desktop (has SVG) or mobile (simple <a>)
-  const isDesktop = badge.tagName === 'A' && badge.querySelector('svg');
+  // Check layout mode from data attribute
+  const mode = badge.dataset.mode;
 
-  if (isDesktop) {
-    // Desktop: keep SVG, update strong and text (no dash — matches GitHub stat links)
+  if (mode === 'desktop') {
+    // Desktop: keep SVG, update strong and text
     const svg = badge.querySelector('svg');
     badge.innerHTML = '';
     if (svg) badge.append(svg);
@@ -298,7 +300,7 @@ function setBadgeExpanded(
     } else {
       badge.append(text);
     }
-  } else if (badge.tagName === 'A') {
+  } else if (mode === 'mobile') {
     // Mobile: preserve SVG, update with bold span
     const svg = badge.querySelector('svg');
     badge.innerHTML = '';
