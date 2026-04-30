@@ -1,5 +1,6 @@
 const API_BASE_URL = import.meta.env.WXT_PUBLIC_STARSCOUT_API_BASE_URL ?? 'http://127.0.0.1:8000';
 const BADGE_ID = 'starscout-integrity-badge';
+const POPOVER_ID = 'starscout-integrity-popover';
 
 export default defineContentScript({
   matches: ['https://github.com/*/*'],
@@ -78,6 +79,13 @@ async function refreshBadge() {
     console.info('[StarScout] API response received', result);
     updateBadgeText(badge, result);
     badge.title = 'Heuristic StarScout suspected non-legit star signal';
+
+    badge.addEventListener('mouseenter', () => {
+      togglePopover(badge, result);
+    });
+    badge.addEventListener('mouseleave', () => {
+      removePopover();
+    });
   } catch (error) {
     console.warn('[StarScout] API request failed', error);
     badge.textContent = 'StarScout: unavailable';
@@ -164,7 +172,6 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
     container.id = BADGE_ID;
     container.className = 'mt-2';
     const badge = createDesktopBadge(text);
-    badge.dataset.mode = 'desktop';
     container.append(badge);
     placement.starStat.insertAdjacentElement('afterend', container);
     return badge;
@@ -174,7 +181,6 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
   const badge = document.createElement('a');
   badge.id = BADGE_ID;
   badge.className = 'Link--secondary no-underline d-block mr-2';
-  badge.dataset.mode = 'mobile';
   badge.role = 'listitem';
   badge.href = '#';
 
@@ -233,6 +239,7 @@ function createDesktopBadge(text: string): HTMLAnchorElement {
 
 function removeBadge() {
   document.getElementById(BADGE_ID)?.remove();
+  removePopover();
 }
 
 async function fetchStarIntegrity(repo: GitHubRepo): Promise<StarIntegrityResponse> {
@@ -254,38 +261,134 @@ function formatBadgeText(result: StarIntegrityResponse): string {
   return `${result.suspectedNonLegitPercent}% suspected - StarScout`;
 }
 
-function updateBadgeText(badge: HTMLElement, result: StarIntegrityResponse) {
+function updateBadgeText(badge: HTMLElement, result: StarIntegrityResponse): void {
   const text = formatBadgeText(result);
-  const mode = badge.dataset.mode;
+  const svg = badge.querySelector('svg');
+  badge.innerHTML = '';
+  if (svg) badge.append(svg);
 
-  if (mode === 'desktop') {
-    const svg = badge.querySelector('svg');
-    badge.innerHTML = '';
-    if (svg) badge.append(svg);
-    const match = text.match(/^(.+?)\s+-\s+(.+)$/);
-    if (match) {
-      const strong = document.createElement('strong');
-      strong.textContent = match[1];
-      badge.append(strong, ` ${match[2]}`);
-    } else {
-      badge.append(text);
-    }
-  } else if (mode === 'mobile') {
-    const svg = badge.querySelector('svg');
-    badge.innerHTML = '';
-    if (svg) badge.append(svg);
-    const match = text.match(/^(.+?)\s+-\s+(.+)$/);
-    if (match) {
+  const match = text.match(/^(.+?)\s+-\s+(.+)$/);
+  if (match) {
+    if (badge.classList.contains('Link--secondary')) {
       const boldPart = document.createElement('span');
       boldPart.className = 'text-bold color-fg-default';
       boldPart.textContent = match[1];
       badge.append(boldPart, ` - ${match[2]}`);
     } else {
-      badge.append(text);
+      const strong = document.createElement('strong');
+      strong.textContent = match[1];
+      badge.append(strong, ` ${match[2]}`);
     }
   } else {
-    badge.textContent = text;
+    badge.append(text);
   }
+}
+
+function togglePopover(anchor: HTMLElement, result: StarIntegrityResponse) {
+  removePopover();
+
+  const popover = createPopover(result);
+  document.body.append(popover);
+
+  const rect = anchor.getBoundingClientRect();
+  popover.style.top = `${Math.round(rect.bottom + window.scrollY + 8)}px`;
+  popover.style.left = `${Math.round(rect.left + window.scrollX)}px`;
+}
+
+function createPopover(result: StarIntegrityResponse): HTMLDivElement {
+  const popover = document.createElement('div');
+  popover.id = POPOVER_ID;
+  popover.style.cssText = [
+    'position:absolute',
+    'z-index:2147483647',
+    'width:320px',
+    'padding:12px',
+    'border:1px solid var(--borderColor-default, #d0d7de)',
+    'border-radius:8px',
+    'background:var(--bgColor-default, #ffffff)',
+    'box-shadow:0 8px 24px rgba(140,149,159,0.2)',
+    'color:var(--fgColor-default, #24292f)',
+    'font:13px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif',
+  ].join(';');
+  popover.addEventListener('click', (event) => event.stopPropagation());
+  popover.innerHTML = result.analyzed ? analyzedPopoverHtml(result) : notAnalyzedPopoverHtml(result);
+
+  popover.addEventListener('mouseenter', () => {
+    removePopover();
+  });
+
+  return popover;
+}
+
+function analyzedPopoverHtml(result: StarIntegrityResponse): string {
+  const breakdown = result.breakdown;
+  return `
+    <strong style="display:block;margin-bottom:8px;">StarScout integrity signal</strong>
+    <p style="margin:0 0 10px;color:var(--fgColor-muted, #57606a);">
+      Heuristic signal only. Results may include false positives and are not proof that
+      any star or account is fake.
+    </p>
+    ${metricRows([
+      ['Current stars', formatNullableNumber(result.currentStars)],
+      ['Suspected non-legit stars', formatNullableNumber(result.suspectedNonLegitStars)],
+      ['Estimated legitimate stars', formatNullableNumber(result.estimatedLegitStars)],
+      ['Suspected percentage', `${result.suspectedNonLegitPercent ?? 0}%`],
+      ['Low-activity', formatNullableNumber(breakdown?.lowActivity ?? null)],
+      ['Lockstep', formatNullableNumber(breakdown?.lockstep ?? null)],
+      ['Overlap', formatNullableNumber(breakdown?.overlap ?? null)],
+      ['Analyzed through', escapeHtml(result.analyzedThrough ?? 'unknown')],
+    ])}
+    ${warningsHtml(result.warnings)}
+    ${attributionHtml()}
+  `;
+}
+
+function notAnalyzedPopoverHtml(result: StarIntegrityResponse): string {
+  return `
+    <strong style="display:block;margin-bottom:8px;">StarScout integrity signal</strong>
+    <p style="margin:0 0 10px;color:var(--fgColor-muted, #57606a);">
+      This repository is not present in the current StarScout aggregate dataset. That is
+      not a claim of zero suspected non-legit stars.
+    </p>
+    ${warningsHtml(result.warnings)}
+    ${attributionHtml()}
+  `;
+}
+
+function metricRows(rows: [string, string][]): string {
+  return `
+    <dl style="display:grid;grid-template-columns:1fr auto;gap:6px 12px;margin:0 0 10px;">
+      ${rows
+        .map(
+          ([label, value]) => `
+            <dt style="color:var(--fgColor-muted, #57606a);">${escapeHtml(label)}</dt>
+            <dd style="margin:0;font-weight:600;">${value}</dd>
+          `,
+        )
+        .join('')}
+    </dl>
+  `;
+}
+
+function warningsHtml(warnings: string[]): string {
+  if (warnings.length === 0) {
+    return '';
+  }
+
+  return `
+    <div style="margin:10px 0;padding:8px;border-radius:6px;background:#fff8c5;color:#7d4e00;">
+      ${warnings.map((warning) => `<div>${escapeHtml(warning)}</div>`).join('')}
+    </div>
+  `;
+}
+
+function attributionHtml(): string {
+  return `
+    <p style="margin:10px 0 0;color:var(--fgColor-muted, #57606a);font-size:12px;">
+      Data and methodology attribution: StarScout, ICSE 2026 paper, and Zenodo DOI
+      <a href="https://doi.org/10.5281/zenodo.17009694" target="_blank" rel="noreferrer">10.5281/zenodo.17009694</a>.
+    </p>
+  `;
 }
 
 function formatNullableNumber(value: number | null): string {
@@ -302,4 +405,8 @@ function escapeHtml(value: string): string {
     };
     return entities[char];
   });
+}
+
+function removePopover() {
+  document.getElementById(POPOVER_ID)?.remove();
 }
