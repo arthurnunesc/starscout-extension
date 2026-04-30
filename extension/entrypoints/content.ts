@@ -189,7 +189,7 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
   badge.href = '#';
 
   // Search icon SVG
-  badge.innerHTML = `<svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16" fill="currentColor" class="octicon octicon-search mr-1 tmp-mr-1" style="vertical-align:text-bottom">
+  badge.innerHTML = `<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-search mr-1 tmp-mr-1">
     <path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"></path>
   </svg>`;
 
@@ -219,17 +219,12 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
 
 function createDesktopBadge(text: string): HTMLAnchorElement {
   const badge = document.createElement('a');
+  badge.setAttribute('data-view-component', 'true');
   badge.className = 'Link Link--muted';
   badge.href = '#';
-  badge.style.cssText = [
-    'display:inline-flex',
-    'align-items:center',
-    'gap:6px',
-    'cursor:pointer',
-  ].join(';');
 
   // Search icon SVG
-  badge.innerHTML = `<svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16" fill="currentColor" class="octicon octicon-search mr-2 tmp-mr-2" style="flex-shrink:0;vertical-align:text-bottom">
+  badge.innerHTML = `<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-search mr-2 tmp-mr-2">
     <path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"></path>
   </svg>`;
 
@@ -238,7 +233,7 @@ function createDesktopBadge(text: string): HTMLAnchorElement {
   if (match) {
     const boldPart = document.createElement('strong');
     boldPart.textContent = match[1];
-    badge.append(boldPart, ` - ${match[2]}`);
+    badge.append(boldPart, ` ${match[2]}`);
   } else {
     badge.append(text);
   }
@@ -291,7 +286,7 @@ function setBadgeExpanded(
   const isDesktop = badge.tagName === 'A' && badge.querySelector('svg');
 
   if (isDesktop) {
-    // Desktop: keep SVG, update strong and text
+    // Desktop: keep SVG, update strong and text (no dash — matches GitHub stat links)
     const svg = badge.querySelector('svg');
     badge.innerHTML = '';
     if (svg) badge.append(svg);
@@ -299,7 +294,7 @@ function setBadgeExpanded(
     if (match) {
       const strong = document.createElement('strong');
       strong.textContent = match[1];
-      badge.append(strong, ` - ${match[2]}`);
+      badge.append(strong, ` ${match[2]}`);
     } else {
       badge.append(text);
     }
