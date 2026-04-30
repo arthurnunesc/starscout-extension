@@ -132,7 +132,10 @@ function findBadgePlacement(repo: GitHubRepo): BadgePlacement | null {
 }
 
 function findResponsiveMetaContainer(): HTMLElement | null {
-  return document.querySelector<HTMLElement>('.responsive-meta-container');
+  return (
+    document.querySelector<HTMLElement>('ul[aria-label="Repository details"]') ??
+    document.querySelector<HTMLElement>('.responsive-meta-container')
+  );
 }
 
 function findBorderGridStarStat(repo: GitHubRepo): HTMLElement | null {
@@ -179,7 +182,7 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLButtonElement
     return badge;
   }
 
-  container.style.cssText = ['display:inline-flex', 'align-items:center', 'margin-right:16px'].join(';');
+  container.style.cssText = ['display:inline-flex', 'align-items:center'].join(';');
   placement.container.append(container);
   return badge;
 }
