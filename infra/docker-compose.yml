@@ -1,4 +1,46 @@
 services:
+  api:
+    build:
+      context: ../backend
+    container_name: starscout-api
+    restart: unless-stopped
+    environment:
+      STARSCOUT_APP_NAME: ${STARSCOUT_APP_NAME:-StarScout API}
+      STARSCOUT_APP_VERSION: ${STARSCOUT_APP_VERSION:-0.1.0}
+      STARSCOUT_ENABLE_DOCS: ${STARSCOUT_ENABLE_DOCS:-false}
+      STARSCOUT_DATABASE_URL: ${STARSCOUT_DATABASE_URL}
+      STARSCOUT_MONGODB_URL: ${STARSCOUT_MONGODB_URL:-mongodb://mongo:27017}
+      STARSCOUT_MONGODB_DATABASE: ${STARSCOUT_MONGODB_DATABASE:-fake_stars}
+      STARSCOUT_ANALYZED_THROUGH: ${STARSCOUT_ANALYZED_THROUGH:-2025-01-01}
+      STARSCOUT_GITHUB_TOKEN: ${STARSCOUT_GITHUB_TOKEN:-}
+      STARSCOUT_GITHUB_REPO_CACHE_TTL_SECONDS: ${STARSCOUT_GITHUB_REPO_CACHE_TTL_SECONDS:-3600}
+      STARSCOUT_REPO_INTEGRITY_RATE_LIMIT_PER_MINUTE: ${STARSCOUT_REPO_INTEGRITY_RATE_LIMIT_PER_MINUTE:-60}
+      STARSCOUT_CORS_ALLOW_ORIGIN_REGEX: ${STARSCOUT_CORS_ALLOW_ORIGIN_REGEX:-^(https://github\.com|chrome-extension://.+|moz-extension://.+)$}
+      STARSCOUT_API_CACHE_MAX_AGE_SECONDS: ${STARSCOUT_API_CACHE_MAX_AGE_SECONDS:-300}
+    command:
+      - uv
+      - run
+      - --no-dev
+      - uvicorn
+      - starscout_api.main:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+      - --proxy-headers
+      - --log-level
+      - ${STARSCOUT_LOG_LEVEL:-info}
+    ports:
+      - "${API_PORT:-8000}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "uv", "run", "--no-dev", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
   postgres:
     image: postgres:17-alpine
     container_name: starscout-postgres

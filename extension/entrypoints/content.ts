@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const API_BASE_URL = import.meta.env.WXT_PUBLIC_STARSCOUT_API_BASE_URL ?? 'http://127.0.0.1:8000';
 const BADGE_ID = 'starscout-integrity-badge';
 const POPOVER_ID = 'starscout-integrity-popover';
 

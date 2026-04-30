@@ -14,6 +14,7 @@ extension/.output/
 .env
 .env.*
 !.env.example
+!.env.deploy.example
 backend/.env
 backend/.env.*
 !backend/.env.example

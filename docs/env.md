@@ -30,4 +30,8 @@ All backend variables use the `STARSCOUT_` prefix.
 
 - `TEST_POSTGRES_DSN` - explicit Postgres DSN for the Phase 2 integration test.
 
+## Extension Environment Variables
+
+- `WXT_PUBLIC_STARSCOUT_API_BASE_URL` - optional backend URL for the dev-loaded extension. Defaults to `http://127.0.0.1:8000`.
+
 Never commit real credentials. Use `.env.example` files as safe templates only.
