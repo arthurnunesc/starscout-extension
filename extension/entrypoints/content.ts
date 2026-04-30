@@ -233,7 +233,7 @@ function createDesktopBadge(text: string): HTMLAnchorElement {
   if (match) {
     const boldPart = document.createElement('strong');
     boldPart.textContent = match[1];
-    badge.append(boldPart, ` ${match[2]}`);
+    badge.append(boldPart, ` - ${match[2]}`);
   } else {
     badge.append(text);
   }
@@ -294,7 +294,7 @@ function setBadgeExpanded(
     if (match) {
       const strong = document.createElement('strong');
       strong.textContent = match[1];
-      badge.append(strong, ` ${match[2]}`);
+      badge.append(strong, ` - ${match[2]}`);
     } else {
       badge.append(text);
     }
