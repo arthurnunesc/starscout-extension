@@ -32,8 +32,8 @@ type StarIntegrityResponse = {
 };
 
 type BadgePlacement =
-  | { mode: 'desktop-star-subrow'; starItem: HTMLElement }
-  | { mode: 'mobile-inline-stat'; starStat: HTMLElement };
+  | { mode: 'desktop-border-grid'; starStat: HTMLElement }
+  | { mode: 'mobile-responsive-meta'; container: HTMLElement };
 
 function installBadgeUpdater() {
   let lastUrl = '';
@@ -113,25 +113,42 @@ function parseGitHubRepo(location: Location): GitHubRepo | null {
 }
 
 function findBadgePlacement(repo: GitHubRepo): BadgePlacement | null {
-  const desktopStarItem = findDesktopStarItem();
-  if (desktopStarItem && isVisible(desktopStarItem)) {
-    return { mode: 'desktop-star-subrow', starItem: desktopStarItem };
+  const responsiveMeta = findResponsiveMetaContainer();
+  if (responsiveMeta && isVisible(responsiveMeta)) {
+    return { mode: 'mobile-responsive-meta', container: responsiveMeta };
   }
 
-  const mobileStarStat = findMobileStarStat(repo);
-  if (mobileStarStat) {
-    return { mode: 'mobile-inline-stat', starStat: mobileStarStat };
+  const borderGridStarStat = findBorderGridStarStat(repo);
+  if (borderGridStarStat) {
+    return { mode: 'desktop-border-grid', starStat: borderGridStarStat };
+  }
+
+  const sidebarStarStat = findSidebarStarStat(repo);
+  if (sidebarStarStat) {
+    return { mode: 'desktop-border-grid', starStat: sidebarStarStat };
   }
 
   return null;
 }
 
-function findDesktopStarItem(): HTMLElement | null {
-  const starCounter = document.querySelector<HTMLElement>('#repo-stars-counter-star');
-  return starCounter?.closest<HTMLElement>('#repository-details-container ul.pagehead-actions > li') ?? null;
+function findResponsiveMetaContainer(): HTMLElement | null {
+  return document.querySelector<HTMLElement>('.responsive-meta-container');
 }
 
-function findMobileStarStat(repo: GitHubRepo): HTMLElement | null {
+function findBorderGridStarStat(repo: GitHubRepo): HTMLElement | null {
+  const borderGridRows = document.querySelectorAll<HTMLElement>('.BorderGrid-row');
+  for (const row of borderGridRows) {
+    const starLink = row.querySelector<HTMLElement>(`a[href="/${repo.owner}/${repo.repo}/stargazers"]`);
+    const stat = starLink?.closest<HTMLElement>('.mt-2, li, div');
+    if (stat) {
+      return stat;
+    }
+  }
+
+  return null;
+}
+
+function findSidebarStarStat(repo: GitHubRepo): HTMLElement | null {
   const links = document.querySelectorAll<HTMLElement>(
     `a[href="/${repo.owner}/${repo.repo}/stargazers"]`,
   );
@@ -156,14 +173,14 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLButtonElement
   const badge = createBadge(text, placement.mode);
   container.append(badge);
 
-  if (placement.mode === 'desktop-star-subrow') {
-    container.style.cssText = ['margin-top:4px', 'text-align:right', 'line-height:1'].join(';');
-    placement.starItem.append(container);
+  if (placement.mode === 'desktop-border-grid') {
+    container.className = 'mt-2';
+    placement.starStat.insertAdjacentElement('afterend', container);
     return badge;
   }
 
-  container.className = 'mt-2';
-  placement.starStat.insertAdjacentElement('afterend', container);
+  container.style.cssText = ['display:inline-flex', 'align-items:center', 'margin-right:16px'].join(';');
+  placement.container.append(container);
   return badge;
 }
 
@@ -171,7 +188,7 @@ function createBadge(text: string, mode: BadgePlacement['mode']): HTMLButtonElem
   const badge = document.createElement('button');
   badge.type = 'button';
   badge.textContent = text;
-  badge.className = mode === 'mobile-inline-stat' ? 'Link--muted' : '';
+  badge.className = 'Link--muted';
   badge.style.cssText = [
     'display:inline-flex',
     'align-items:center',
