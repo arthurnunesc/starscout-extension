@@ -40,6 +40,40 @@ curl http://YOUR_HOST:8000/health
 
 ## Restore And Import Dataset
 
+If you already imported the dataset locally, prefer the faster Postgres dump path
+below. Use the Mongo restore/import path only when the VPS must perform the full
+dataset import itself.
+
+### Faster Path: Copy Local Postgres Export
+
+On your local machine, export the already-imported serving database:
+
+```sh
+docker exec starscout-postgres pg_dump -U starscout -d starscout -Fc > starscout.dump
+```
+
+Copy the dump to the VPS repository root:
+
+```sh
+scp starscout.dump root@YOUR_VPS_IP:/root/real-github-stars-extension/
+```
+
+On the VPS, start Postgres and restore the dump:
+
+```sh
+docker compose --env-file .env -f infra/docker-compose.yml up -d postgres
+docker compose --env-file .env -f infra/docker-compose.yml exec -T postgres \
+  pg_restore -U starscout -d starscout --clean --if-exists < starscout.dump
+```
+
+Then start the API:
+
+```sh
+docker compose --env-file .env -f infra/docker-compose.yml up -d api
+```
+
+### Full Path: Restore Mongo And Run Importer
+
 Place `mongodb.zip` on the VPS repository root, then restore the importer-required
 collections:
 
@@ -102,3 +136,29 @@ WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://YOUR_API_HOST" pnpm dev
 
 For local development, omit the variable and the extension defaults to
 `http://127.0.0.1:8000`.
+
+## Package Dev-Loaded Extension
+
+Build the Chrome MV3 zip with the deployed backend URL baked in:
+
+```sh
+cd extension
+WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://starscout-extension-api.arthurnun.es" pnpm zip
+```
+
+The generated package is written to:
+
+```text
+extension/.output/starscout-extension-0.0.0-chrome.zip
+```
+
+Share the zip with beta testers together with these instructions:
+
+1. Unzip the package locally.
+2. Open `chrome://extensions`.
+3. Enable Developer mode.
+4. Choose Load unpacked.
+5. Select the unzipped extension directory.
+6. Open a public GitHub repository page and verify the `StarScout` badge appears.
+
+For Firefox, use `WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://starscout-extension-api.arthurnun.es" pnpm zip:firefox`.

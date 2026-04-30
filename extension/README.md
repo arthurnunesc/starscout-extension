@@ -15,6 +15,22 @@ Type-check without building:
 pnpm compile
 ```
 
+Package a Chrome dev-loaded beta for the deployed backend:
+
+```sh
+WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://starscout-extension-api.arthurnun.es" pnpm zip
+```
+
+The package is generated at `.output/starscout-extension-0.0.0-chrome.zip`.
+
+Beta tester installation:
+
+1. Unzip the package.
+2. Open `chrome://extensions`.
+3. Enable Developer mode.
+4. Click Load unpacked.
+5. Select the unzipped extension directory.
+
 ## Manual Verification
 
 1. Start the backend on `http://127.0.0.1:8000` with Postgres data loaded.

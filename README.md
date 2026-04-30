@@ -114,6 +114,16 @@ cd extension
 WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://YOUR_API_HOST" pnpm dev
 ```
 
+To package a Chrome dev-loaded beta zip:
+
+```sh
+cd extension
+WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://starscout-extension-api.arthurnun.es" pnpm zip
+```
+
+The zip is generated under `extension/.output/`. Unzip it, open
+`chrome://extensions`, enable Developer mode, and load the unzipped directory.
+
 ## Privacy Posture
 
 - The extension sends only the public `owner/repo` identifier to the backend.

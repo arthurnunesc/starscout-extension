@@ -22,6 +22,7 @@ backend/.env.*
 # Local StarScout dataset dumps
 mongodb.zip
 mongodb/
+starscout.dump
 
 # OS / editor
 .DS_Store
