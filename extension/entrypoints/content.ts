@@ -201,7 +201,7 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
     const boldPart = document.createElement('span');
     boldPart.className = 'text-bold color-fg-default';
     boldPart.textContent = match[1];
-    badge.append(boldPart, ` ${match[2]}`);
+    badge.append(boldPart, ` - ${match[2]}`);
   } else {
     badge.append(text);
   }
@@ -310,7 +310,7 @@ function setBadgeExpanded(
       const boldPart = document.createElement('span');
       boldPart.className = 'text-bold color-fg-default';
       boldPart.textContent = match[1];
-      badge.append(boldPart, ` ${match[2]}`);
+badge.append(boldPart, ` - ${match[2]}`);
     } else {
       badge.append(text);
     }
