@@ -194,7 +194,7 @@ Run the importer against the restored Zenodo MongoDB dataset, populate Postgres 
 - [x] Import report includes source counts, deduped counts, aggregate counts, and overlap counts.
 - [x] A known analyzed repo returns expected aggregate data from the API.
 - [x] A known not-analyzed repo returns the not-analyzed state.
-- [ ] Extension displays correct analyzed and not-analyzed states against local backend.
+- [x] Extension displays correct analyzed and not-analyzed states against local backend.
 - [x] Backend test suite passes after full import-related changes.
 
 ## Phase 9: Docker Compose Beta Deployment
