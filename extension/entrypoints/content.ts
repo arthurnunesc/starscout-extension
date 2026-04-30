@@ -5,6 +5,7 @@ const POPOVER_ID = 'starscout-integrity-popover';
 export default defineContentScript({
   matches: ['https://github.com/*/*'],
   main() {
+    console.info('[StarScout] content script loaded', window.location.href);
     installBadgeUpdater();
   },
 });
@@ -57,11 +58,13 @@ async function refreshBadge() {
 
   const repo = parseGitHubRepo(window.location);
   if (!repo) {
+    console.debug('[StarScout] not a supported repository page', window.location.href);
     return;
   }
 
   const anchor = findStarAnchor(repo);
   if (!anchor) {
+    console.debug('[StarScout] star anchor not found yet', repo);
     return;
   }
 
@@ -70,6 +73,7 @@ async function refreshBadge() {
 
   try {
     const result = await fetchStarIntegrity(repo);
+    console.info('[StarScout] API response received', result);
     badge.textContent = formatBadgeText(result);
     badge.title = 'Heuristic StarScout suspected non-legit star signal';
     badge.addEventListener('click', (event) => {
@@ -77,7 +81,8 @@ async function refreshBadge() {
       event.stopPropagation();
       togglePopover(badge, result);
     });
-  } catch {
+  } catch (error) {
+    console.warn('[StarScout] API request failed', error);
     badge.textContent = 'StarScout: unavailable';
   }
 }
