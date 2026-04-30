@@ -62,9 +62,9 @@ async function refreshBadge() {
     return;
   }
 
-  const anchor = findStarAnchor(repo);
+  const anchor = findBadgeAnchor(repo);
   if (!anchor) {
-    console.debug('[StarScout] star anchor not found yet', repo);
+    console.debug('[StarScout] badge anchor not found yet', repo);
     return;
   }
 
@@ -103,7 +103,14 @@ function parseGitHubRepo(location: Location): GitHubRepo | null {
   return { owner, repo };
 }
 
-function findStarAnchor(repo: GitHubRepo): HTMLElement | null {
+function findBadgeAnchor(repo: GitHubRepo): HTMLElement | null {
+  const repoTitle = document.querySelector<HTMLElement>(
+    '#repository-container-header strong[itemprop="name"]',
+  );
+  if (repoTitle) {
+    return repoTitle;
+  }
+
   const starLink = document.querySelector<HTMLElement>(
     `a[href="/${repo.owner}/${repo.repo}/stargazers"]`,
   );
