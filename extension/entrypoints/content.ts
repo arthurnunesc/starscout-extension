@@ -72,7 +72,7 @@ async function refreshBadge() {
     return;
   }
 
-  const badge = insertBadge(placement, 'StarScout checking');
+  const badge = insertBadge(placement, 'StarScout checking', null);
 
   try {
     const result = await fetchStarIntegrity(repo);
@@ -166,12 +166,20 @@ function isVisible(element: HTMLElement): boolean {
   return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
 }
 
-function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
+function percentColor(percent: number | null): string {
+  if (percent === null) return '';
+  if (percent < 20) return 'color:var(--color-fg-success, #1a7f37)';
+  if (percent < 35) return 'color:var(--color-fg-attention, #9a6700)';
+  if (percent < 50) return 'color:var(--color-fg-severe, #bc4c00)';
+  return 'color:var(--color-fg-danger, #cf222e)';
+}
+
+function insertBadge(placement: BadgePlacement, text: string, percent: number | null): HTMLElement {
   if (placement.mode === 'desktop-border-grid') {
     const container = document.createElement('div');
     container.id = BADGE_ID;
     container.className = 'mt-2';
-    const badge = createDesktopBadge(text);
+    const badge = createDesktopBadge(text, percent);
     container.append(badge);
     placement.starStat.insertAdjacentElement('afterend', container);
     return badge;
@@ -195,6 +203,7 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
     const boldPart = document.createElement('span');
     boldPart.className = 'text-bold color-fg-default';
     boldPart.textContent = match[1];
+    if (percent !== null) boldPart.style.cssText = percentColor(percent);
     badge.append(boldPart, ` - ${match[2]}`);
   } else {
     badge.append(text);
@@ -213,7 +222,7 @@ function insertBadge(placement: BadgePlacement, text: string): HTMLElement {
   return badge;
 }
 
-function createDesktopBadge(text: string): HTMLAnchorElement {
+function createDesktopBadge(text: string, percent: number | null): HTMLAnchorElement {
   const badge = document.createElement('a');
   badge.setAttribute('data-view-component', 'true');
   badge.className = 'Link Link--muted';
@@ -229,7 +238,8 @@ function createDesktopBadge(text: string): HTMLAnchorElement {
   if (match) {
     const boldPart = document.createElement('strong');
     boldPart.textContent = match[1];
-    badge.append(boldPart, ` ${match[2]}`);
+    if (percent !== null) boldPart.style.cssText = percentColor(percent);
+    badge.append(boldPart, ` - ${match[2]}`);
   } else {
     badge.append(text);
   }
@@ -267,17 +277,20 @@ function updateBadgeText(badge: HTMLElement, result: StarIntegrityResponse): voi
   badge.innerHTML = '';
   if (svg) badge.append(svg);
 
+  const percent = result.suspectedNonLegitPercent;
   const match = text.match(/^(.+?)\s+-\s+(.+)$/);
   if (match) {
     if (badge.classList.contains('Link--secondary')) {
       const boldPart = document.createElement('span');
       boldPart.className = 'text-bold color-fg-default';
       boldPart.textContent = match[1];
+      if (percent !== null) boldPart.style.cssText = percentColor(percent);
       badge.append(boldPart, ` - ${match[2]}`);
     } else {
       const strong = document.createElement('strong');
       strong.textContent = match[1];
-      badge.append(strong, ` ${match[2]}`);
+      if (percent !== null) strong.style.cssText = percentColor(percent);
+      badge.append(strong, ` - ${match[2]}`);
     }
   } else {
     badge.append(text);
