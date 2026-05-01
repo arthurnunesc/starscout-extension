@@ -34,111 +34,30 @@ metadata and opens a details popover with aggregate metrics and attribution.
 - It does not support private repositories or GitHub Enterprise Server.
 - It does not replace GitHub's native star count.
 
-## Project Layout
-
-- `backend/` - FastAPI backend and importer managed with `uv`.
-- `extension/` - WXT + React browser extension.
-- `infra/` - Docker Compose infrastructure.
-- `docs/` - Architecture, environment, local development, deployment, QA, and attribution notes.
-- `plans/` - Implementation plan and acceptance criteria.
-- `website/` - Static landing page and privacy notice for the beta subdomain.
-
 ## Beta Links
 
 - Landing page: https://starscout-extension.arthurnun.es
 - Privacy notice: https://starscout-extension.arthurnun.es/privacy
 - Support: GitHub Issues
 
-## Local Backend Setup
+## Documentation
 
-Start Postgres and MongoDB:
+Start here based on what you need:
 
-```sh
-docker compose --env-file .env.example -f infra/docker-compose.yml up -d postgres mongo
-```
+- Product overview and limitations: this README.
+- Development setup, deployment, packaging, and verification: [docs/development.md](docs/development.md).
+- Architecture notes: [docs/architecture.md](docs/architecture.md).
+- Public privacy notice content: [docs/privacy.md](docs/privacy.md).
+- StarScout attribution details: [docs/attribution.md](docs/attribution.md).
 
-Restore the StarScout suspicious-star collections from `mongodb.zip`:
+Repository map:
 
-```sh
-unzip -o mongodb.zip "mongodb/fake_stars/low_activity_stars*" "mongodb/fake_stars/clustered_stars*"
-docker run --rm --network host -v "$PWD/mongodb:/dump" mongo:8-noble \
-  mongorestore --gzip --drop --uri="mongodb://127.0.0.1:27017" /dump
-```
-
-Install backend dependencies and run the importer/API:
-
-```sh
-cd backend
-uv sync --dev
-uv run python -m starscout_api.importer.cli
-uv run uvicorn starscout_api.main:app --reload
-```
-
-Useful checks:
-
-```sh
-curl http://127.0.0.1:8000/health
-curl http://127.0.0.1:8000/repos/xai-org/grok-1/star-integrity
-curl http://127.0.0.1:8000/repos/octocat/Hello-World/star-integrity
-```
-
-See `docs/local-dev.md` and `docs/full-import-verification.md` for details.
-
-## Deployed Backend Setup
-
-Copy the deployment env template and replace placeholders:
-
-```sh
-cp .env.deploy.example .env
-```
-
-Start the Compose deployment on a VPS:
-
-```sh
-docker compose --env-file .env -f infra/docker-compose.yml up -d postgres mongo api
-```
-
-Deployment configuration includes:
-
-- Postgres serving database.
-- Optional MongoDB import-time service.
-- FastAPI API container.
-- Public read API rate limiting.
-- Cache headers.
-- CORS restricted to GitHub and browser-extension origins.
-- Uvicorn stdout/stderr logging.
-
-See `docs/deployment.md` for secrets, import, restart, logging, and verification steps.
-
-## Dev-Loaded Extension Setup
-
-Install dependencies and start WXT:
-
-```sh
-cd extension
-pnpm install
-pnpm dev
-```
-
-Load the generated WXT development extension in your browser. For local backend usage,
-no extra configuration is required; the extension defaults to `http://127.0.0.1:8000`.
-
-To point the dev-loaded extension at a deployed backend:
-
-```sh
-cd extension
-WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://YOUR_API_HOST" pnpm dev
-```
-
-To package a Chrome dev-loaded beta zip:
-
-```sh
-cd extension
-pnpm zip:beta
-```
-
-The zip is generated under `extension/.output/`. Unzip it, open
-`chrome://extensions`, enable Developer mode, and load the unzipped directory.
+- `backend/` - FastAPI backend and importer managed with `uv`.
+- `extension/` - WXT + React browser extension.
+- `infra/` - Docker Compose infrastructure.
+- `website/` - Static landing page and privacy notice for the beta subdomain.
+- `docs/` - Developer, architecture, deployment, QA, and attribution notes.
+- `plans/` - Implementation plans and acceptance criteria.
 
 ## Privacy Posture
 
@@ -149,7 +68,7 @@ The zip is generated under `extension/.output/`. Unzip it, open
 - The public API is read-only and rate-limited.
 - Operational logs should avoid long-lived per-user browsing history.
 
-See `docs/privacy.md` for the public privacy notice content.
+See [docs/privacy.md](docs/privacy.md) for the public privacy notice content.
 
 ## Public Repository Notes
 
@@ -170,7 +89,7 @@ This project uses StarScout-derived data and methodology.
   Stars on GitHub: A Growing Spiral of Popularity Contests, Spam, and Malware.
   ICSE 2026.
 
-See `docs/attribution.md`.
+See [docs/attribution.md](docs/attribution.md).
 
 ## Known Limitations
 
@@ -181,13 +100,6 @@ See `docs/attribution.md`.
 - Results are bounded by the StarScout dataset cutoff, currently `2025-01-01`.
 - Missing aggregate data is shown as not analyzed, not as zero suspected stars.
 - Browser store publication is out of scope for the dev-loaded beta.
-
-## Verification
-
-- Backend tests: `cd backend && uv run pytest`
-- Backend lint: `cd backend && uv run ruff check .`
-- Extension type-check: `cd extension && pnpm compile`
-- Manual beta QA: see `docs/manual-qa.md`
 
 ## License
 
