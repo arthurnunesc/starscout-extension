@@ -12,6 +12,16 @@ count and opens a details popover with aggregate metrics and attribution.
 | --- | --- |
 | ![StarScout desktop badge with aggregate star integrity signal](docs/assets/readme/starscout-badge-desktop.png) | ![StarScout badge on a narrower GitHub layout](docs/assets/readme/starscout-badge-mobile.png) |
 
+## Usage
+
+Download the release zip from GitHub, unzip it locally, open `chrome://extensions`,
+enable Developer mode, choose Load unpacked, and select the unzipped extension
+directory. Then open a public GitHub repository page and look for the `StarScout`
+badge near GitHub's native star control.
+
+You can also follow the steps in the [Packaging](docs/development.md#packaging)
+section of `development.md` to build it yourself.
+
 ## What It Does
 
 - Detects public `github.com/{owner}/{repo}` repository pages.
