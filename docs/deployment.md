@@ -23,8 +23,6 @@ Important variables:
 - `STARSCOUT_REPO_INTEGRITY_RATE_LIMIT_PER_MINUTE` controls public API abuse protection.
 - `STARSCOUT_LOG_LEVEL` controls Uvicorn logging verbosity.
 
-Never commit the real `.env` file.
-
 ## Start Services
 
 ```sh
@@ -93,6 +91,40 @@ docker compose --env-file .env -f infra/docker-compose.yml run --rm api \
 The importer bootstraps the required Postgres tables before writing facts and
 aggregates. Re-running the same dataset is idempotent.
 
+### Verified Full Import Result
+
+The StarScout MongoDB archive was restored from `mongodb.zip` at the repository
+root. Only the importer-required suspicious-star collections were extracted and
+restored:
+
+- `fake_stars.low_activity_stars`
+- `fake_stars.clustered_stars`
+
+Known restore result:
+
+- `82,458,891` MongoDB documents restored successfully
+- `0` MongoDB documents failed to restore
+
+Known importer result:
+
+- Source name: `starscout-mongodb`
+- Source version: `2025-01-01`
+- Low-activity source rows: `1,062,836`
+- Lockstep source rows: `4,932,068`
+- Deduped suspicious-star facts: `5,985,854`
+- Repo aggregates: `26,640`
+- Import status: `completed`
+
+Top imported aggregate sample:
+
+| Repo | Suspected | Low Activity | Lockstep | Overlap | Analyzed Through |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `xai-org/grok-1` | `44,079` | `908` | `43,999` | `828` | `2025-01-01` |
+| `sindresorhus/awesome` | `22,476` | `13,433` | `9,043` | `0` | `2025-01-01` |
+| `lizongying/my-tv` | `20,537` | `674` | `20,281` | `418` | `2025-01-01` |
+| `abi/screenshot-to-code` | `19,077` | `642` | `18,582` | `147` | `2025-01-01` |
+| `charlax/professional-programming` | `18,905` | `358` | `18,736` | `189` | `2025-01-01` |
+
 ## API Verification
 
 Health route:
@@ -101,17 +133,47 @@ Health route:
 curl http://YOUR_HOST:8000/health
 ```
 
+Expected response:
+
+```json
+{"status":"ok","service":"StarScout API"}
+```
+
 Analyzed repository route:
 
 ```sh
 curl http://YOUR_HOST:8000/repos/xai-org/grok-1/star-integrity
 ```
 
+Expected response summary for the known full import:
+
+- `analyzed`: `true`
+- `currentStars`: `51,527`
+- `suspectedNonLegitStars`: `44,079`
+- `estimatedLegitStars`: `7,448`
+- `suspectedNonLegitPercent`: `85.55`
+- `breakdown.lowActivity`: `908`
+- `breakdown.lockstep`: `43,999`
+- `breakdown.overlap`: `828`
+
 Not-analyzed repository route:
 
 ```sh
 curl http://YOUR_HOST:8000/repos/octocat/Hello-World/star-integrity
 ```
+
+Expected response summary:
+
+- `analyzed`: `false`
+- `suspectedNonLegitStars`: `null`
+- `breakdown`: `null`
+- Warning: `Repository has no StarScout suspicious-star aggregate.`
+
+## Extension Verification
+
+The extension type-check passes with `pnpm compile`. Browser display
+verification still requires loading the development extension and checking the
+badge and popover manually against the backend under test.
 
 ## Restart Behavior
 
@@ -167,5 +229,5 @@ Share the zip with beta testers together with these instructions:
 
 For Firefox, use `WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://starscout-extension-api.arthurnun.es" pnpm zip:firefox`.
 
-See `docs/beta-distribution.md` for tester install, update, uninstall, and
-public-release hygiene guidance.
+See [development.md](development.md#packaging) for tester install, update, and
+uninstall guidance.

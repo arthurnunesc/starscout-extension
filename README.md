@@ -3,8 +3,10 @@
 Browser extension and backend API for showing StarScout-derived suspected non-legit
 star signals on public GitHub repository pages.
 
-The extension adds a `StarScout` signal near GitHub's native repository star
-metadata and opens a details popover with aggregate metrics and attribution.
+The extension adds a `StarScout` badge near GitHub's native repository star
+count and opens a details popover with aggregate metrics and attribution.
+
+### Results are bounded by the StarScout dataset cutoff, currently `2025-01-01`.
 
 | Desktop | Mobile |
 | --- | --- |
@@ -20,7 +22,7 @@ metadata and opens a details popover with aggregate metrics and attribution.
 - Uses the StarScout Zenodo MongoDB dump imported into Postgres as aggregate-only
   serving data.
 
-## What It Does NOT Do
+## What It Does Not Claim
 
 - It does not prove that stars are fake.
 - It does not prove that remaining stars are legitimate.
@@ -32,11 +34,9 @@ metadata and opens a details popover with aggregate metrics and attribution.
 
 Start here based on what you need:
 
-- Product overview and limitations: this README.
 - Development setup, deployment, packaging, and verification: [docs/development.md](docs/development.md).
 - Architecture notes: [docs/architecture.md](docs/architecture.md).
 - Public privacy notice content: [docs/privacy.md](docs/privacy.md).
-- StarScout attribution details: [docs/attribution.md](docs/attribution.md).
 
 Repository map:
 
@@ -46,12 +46,13 @@ Repository map:
 - `docs/` - Developer, architecture, deployment, QA, and attribution notes.
 - `plans/` - Implementation plans and acceptance criteria.
 
-## Privacy
+## Privacy Posture
 
-- The extension sends only the public `owner/repo` identifier to the backend.
-- The extension does not send user identity, GitHub credentials, extension-specific user IDs,
+- Sends only the public `owner/repo` identifier to the backend.
+- Does not send user identity, GitHub credentials, extension-specific user IDs,
   or private repository data.
-- The backend returns aggregate repo-level metrics only.
+- Does not show actor-level suspected stargazer evidence.
+- Backend returns aggregate repo-level metrics only.
 - The public API is read-only and rate-limited.
 - Operational logs should avoid long-lived per-user browsing history.
 
@@ -68,20 +69,6 @@ This project uses StarScout-derived data and methodology.
   Stars on GitHub: A Growing Spiral of Popularity Contests, Spam, and Malware.
   ICSE 2026.
 
-See [docs/attribution.md](docs/attribution.md).
-
-## Known Limitations
-
-- Supports public `github.com/{owner}/{repo}` repository pages only.
-- Does not support private repositories.
-- Does not support GitHub Enterprise Server.
-- Does not show actor-level suspected stargazer evidence.
-- Results are bounded by the StarScout dataset cutoff, currently `2025-01-01`.
-- Missing aggregate data is shown as not analyzed, not as zero suspected stars.
-- Browser store publication is out of scope for the dev-loaded beta.
-
 ## License
 
-- The source code is MIT licensed.
-- The imported StarScout/Zenodo dataset and generated database dumps are not
-  committed and are not relicensed by this repository.
+MIT. See `LICENSE`.

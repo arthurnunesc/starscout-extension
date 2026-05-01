@@ -40,10 +40,6 @@ prevention, and rate limiting. Because the repository name is part of the API
 path, access logs from the API host, reverse proxy, or container platform may
 contain public `owner/repo` paths.
 
-Operational logs should not be used to build long-lived per-user browsing
-history. Production deployments should keep log retention short and avoid adding
-user identity or extension identifiers.
-
 ## Sharing And Sale
 
 This project does not sell user data. The API is designed to return aggregate
@@ -57,17 +53,6 @@ public-repository metrics and does not require accounts, login, or payment.
   suspected stars.
 - Results are heuristic signals, not definitive claims that stars, users, or
   repositories are fake.
-
-## Attribution
-
-This project uses StarScout-derived data and methodology.
-
-- StarScout repository: https://github.com/hehao98/StarScout
-- Zenodo replication package DOI: https://doi.org/10.5281/zenodo.17009694
-- Paper: Hao He, Haoqin Yang, Philipp Burckhardt, Alexandros Kapravelos,
-  Bogdan Vasilescu, and Christian Kaestner. 2026. Six Million (Suspected) Fake
-  Stars on GitHub: A Growing Spiral of Popularity Contests, Spam, and Malware.
-  ICSE 2026.
 
 ## Support
 

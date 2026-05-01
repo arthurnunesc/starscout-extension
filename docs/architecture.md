@@ -19,3 +19,7 @@ The backend is responsible for data correctness. It imports StarScout's Zenodo M
 ## Current Phase
 
 Phase 1 establishes the monorepo, backend health route, WXT scaffold, local Postgres, and documentation. It deliberately does not add importer logic, schemas, migrations, or StarScout dataset processing yet.
+
+## Next steps
+
+1. Get the computational resources to run the StarScout detector to refresh the data.

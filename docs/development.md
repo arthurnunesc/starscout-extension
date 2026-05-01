@@ -17,13 +17,21 @@ On macOS, install `uv` with:
 brew install uv
 ```
 
-## Local Backend
+## Local Services
 
-Start Postgres and MongoDB:
+Start the local services:
 
 ```sh
-docker compose --env-file .env.example -f infra/docker-compose.yml up -d postgres mongo
+docker compose --env-file .env.example -f infra/docker-compose.yml up -d
 ```
+
+Check container health:
+
+```sh
+docker compose --env-file .env.example -f infra/docker-compose.yml ps
+```
+
+## Local Backend
 
 Restore the StarScout suspicious-star collections from `mongodb.zip`:
 
@@ -50,8 +58,41 @@ curl http://127.0.0.1:8000/repos/xai-org/grok-1/star-integrity
 curl http://127.0.0.1:8000/repos/octocat/Hello-World/star-integrity
 ```
 
-See [local-dev.md](local-dev.md) and
-[full-import-verification.md](full-import-verification.md) for more detail.
+The repo star integrity endpoint returns analyzed aggregate metrics when
+`repo_aggregates` has a row for the repo, uses GitHub REST metadata for current
+star counts, and returns a neutral not-analyzed response when no aggregate
+exists.
+
+Repo integrity responses are public-read and cacheable for the configured max
+age. The backend applies a per-client rate limit and CORS only for GitHub, local
+dev, and browser-extension origins. The API does not require user identity or
+extension IDs.
+
+Run backend tests:
+
+```sh
+cd backend
+uv run pytest
+```
+
+Run the importer against a restored StarScout MongoDB source:
+
+```sh
+cd backend
+uv run python -m starscout_api.importer.cli
+```
+
+For the Phase 2 Postgres integration test, export a database DSN and run only
+the integration test file:
+
+```sh
+export TEST_POSTGRES_DSN="postgresql://starscout:starscout_dev_password@localhost:5432/starscout"
+cd backend
+uv run pytest tests/integration/importer/test_postgres_import.py
+```
+
+See [deployment.md](deployment.md#verified-full-import-result) for full import
+verification details.
 
 ## Dev-Loaded Extension
 
@@ -96,6 +137,15 @@ verification steps.
 
 ## Packaging
 
+This project currently uses a dev-loaded beta distribution path for trusted
+testers. This is not a Chrome Web Store release.
+
+Public beta references:
+
+- Privacy notice: [privacy.md](privacy.md)
+- Support: [GitHub Issues](https://github.com/arthurnunesc/starscout-extension/issues)
+- API: `https://starscout-extension-api.arthurnun.es`
+
 To package a Chrome dev-loaded beta zip:
 
 ```sh
@@ -103,11 +153,52 @@ cd extension
 pnpm zip:beta
 ```
 
-The zip is generated under `extension/.output/`. Unzip it, open
-`chrome://extensions`, enable Developer mode, and load the unzipped directory.
+The beta script bakes the deployed API URL into the extension and omits local
+backend host permissions from the shared package. The generated zip is written
+under `extension/.output/`.
 
-See [beta-distribution.md](beta-distribution.md) for tester install, update,
-uninstall, and public-release hygiene guidance.
+Share the zip with testers together with these steps:
+
+1. Unzip the package locally.
+2. Open `chrome://extensions`.
+3. Enable Developer mode.
+4. Choose Load unpacked.
+5. Select the unzipped extension directory.
+6. Open a public GitHub repository page.
+7. Verify the `StarScout` badge appears near GitHub's native star control.
+
+Dev-loaded packages do not auto-update. To update, download the new beta zip,
+unzip it into a fresh local directory, open `chrome://extensions`, remove the
+previous StarScout beta or click Reload after replacing the folder, and refresh
+GitHub repository pages.
+
+To uninstall, open `chrome://extensions`, find `StarScout Star Integrity`, and
+click Remove.
+
+Before sharing a beta, run the verification checklist:
+
+```sh
+cd backend
+uv run pytest
+uv run ruff check .
+
+cd ../extension
+pnpm compile
+pnpm zip:beta
+```
+
+Then manually verify the scenarios in [manual-qa.md](manual-qa.md).
+
+Public release hygiene:
+
+- Do not commit `.env` files, generated zips, database dumps, or StarScout data
+  dumps.
+- Do not distribute the imported Postgres database unless source-data licensing
+  and redistribution terms are confirmed.
+- Keep public wording neutral: suspected non-legit star signal, not proof of fake
+  stars.
+- Include the privacy notice and GitHub Issues support link in every beta
+  announcement.
 
 ## Verification
 
