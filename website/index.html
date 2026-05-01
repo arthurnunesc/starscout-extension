@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StarScout Star Integrity</title>
+    <meta
+      name="description"
+      content="A dev-loaded browser extension that shows StarScout-derived suspected non-legit star signals on public GitHub repositories."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Dev-loaded beta</p>
+        <h1>See StarScout-derived star integrity signals while browsing GitHub.</h1>
+        <p class="lede">
+          StarScout Star Integrity adds a small badge to public GitHub repository
+          pages with aggregate suspected non-legit star signals. It is a
+          heuristic signal, not proof that any star, account, or repository is
+          fake.
+        </p>
+        <div class="actions">
+          <a class="button" href="https://github.com/arthurnunesc/real-github-stars-extension/issues">Get support</a>
+          <a class="button secondary" href="/privacy">Read privacy notice</a>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>What it does</h2>
+        <ul>
+          <li>Detects public <code>github.com/{owner}/{repo}</code> pages.</li>
+          <li>Sends only the public <code>owner/repo</code> identifier to the API.</li>
+          <li>Shows aggregate suspected-star metrics, warnings, cutoff date, and attribution.</li>
+          <li>Never exposes suspected actor-level stargazer identities.</li>
+        </ul>
+      </section>
+
+      <section class="panel warning">
+        <h2>Install the beta</h2>
+        <p>
+          This beta is not published in the Chrome Web Store. Install it only if
+          you trust the source and are comfortable loading an unpacked extension.
+        </p>
+        <ol>
+          <li>Download the beta zip from the project release.</li>
+          <li>Unzip it locally.</li>
+          <li>Open <code>chrome://extensions</code>.</li>
+          <li>Enable Developer mode.</li>
+          <li>Choose Load unpacked and select the unzipped directory.</li>
+        </ol>
+      </section>
+
+      <section class="panel grid">
+        <div>
+          <h2>Limitations</h2>
+          <ul>
+            <li>Public GitHub repositories only.</li>
+            <li>No private repositories or GitHub Enterprise Server.</li>
+            <li>Missing data means not analyzed, not zero suspected stars.</li>
+            <li>Dev-loaded packages do not auto-update.</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Attribution</h2>
+          <p>
+            This project uses StarScout-derived data and methodology from the
+            StarScout repository, Zenodo replication package, and ICSE 2026
+            paper.
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

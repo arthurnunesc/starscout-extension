@@ -2,7 +2,7 @@
   "name": "starscout-extension",
   "description": "GitHub star integrity badge powered by StarScout-derived signals.",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",
@@ -10,6 +10,7 @@
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
     "zip": "wxt zip",
+    "zip:beta": "WXT_PUBLIC_STARSCOUT_API_BASE_URL=https://starscout-extension-api.arthurnun.es wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare"

@@ -18,10 +18,10 @@ pnpm compile
 Package a Chrome dev-loaded beta for the deployed backend:
 
 ```sh
-WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://starscout-extension-api.arthurnun.es" pnpm zip
+pnpm zip:beta
 ```
 
-The package is generated at `.output/starscout-extension-0.0.0-chrome.zip`.
+The package is generated at `.output/starscout-extension-0.1.0-chrome.zip`.
 
 Beta tester installation:
 

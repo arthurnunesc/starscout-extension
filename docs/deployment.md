@@ -124,6 +124,10 @@ The backend logs to stdout/stderr through Uvicorn. Let the VPS/container runtime
 log rotation and retention. Avoid storing long-lived per-user browsing history; the
 API does not require user identity or extension identifiers.
 
+Repository names are part of the API path, so API access logs and reverse-proxy
+logs may contain public `owner/repo` identifiers. Keep retention short and avoid
+adding user identity or extension-specific IDs to logs.
+
 ## Extension Backend URL
 
 Configure the dev-loaded extension to call the deployed backend by setting WXT's
@@ -143,13 +147,13 @@ Build the Chrome MV3 zip with the deployed backend URL baked in:
 
 ```sh
 cd extension
-WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://starscout-extension-api.arthurnun.es" pnpm zip
+pnpm zip:beta
 ```
 
 The generated package is written to:
 
 ```text
-extension/.output/starscout-extension-0.0.0-chrome.zip
+extension/.output/starscout-extension-0.1.0-chrome.zip
 ```
 
 Share the zip with beta testers together with these instructions:
@@ -162,3 +166,6 @@ Share the zip with beta testers together with these instructions:
 6. Open a public GitHub repository page and verify the `StarScout` badge appears.
 
 For Firefox, use `WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://starscout-extension-api.arthurnun.es" pnpm zip:firefox`.
+
+See `docs/beta-distribution.md` for tester install, update, uninstall, and
+public-release hygiene guidance.

@@ -5,7 +5,6 @@ const POPOVER_ID = 'starscout-integrity-popover';
 export default defineContentScript({
   matches: ['https://github.com/*/*'],
   main() {
-    console.info('[StarScout] content script loaded', window.location.href);
     installBadgeUpdater();
   },
 });
@@ -62,13 +61,11 @@ async function refreshBadge() {
 
   const repo = parseGitHubRepo(window.location);
   if (!repo) {
-    console.debug('[StarScout] not a supported repository page', window.location.href);
     return;
   }
 
   const placement = findBadgePlacement(repo);
   if (!placement) {
-    console.debug('[StarScout] badge anchor not found yet', repo);
     return;
   }
 
@@ -76,7 +73,6 @@ async function refreshBadge() {
 
   try {
     const result = await fetchStarIntegrity(repo);
-    console.info('[StarScout] API response received', result);
     updateBadgeText(badge, result);
     badge.title = 'Heuristic StarScout suspected non-legit star signal';
 

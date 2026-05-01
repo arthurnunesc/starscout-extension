@@ -32,6 +32,13 @@ star, account, or repository is fake.
 - `infra/` - Docker Compose infrastructure.
 - `docs/` - Architecture, environment, local development, deployment, QA, and attribution notes.
 - `plans/` - Implementation plan and acceptance criteria.
+- `website/` - Static landing page and privacy notice for the beta subdomain.
+
+## Beta Links
+
+- Landing page: https://starscout-extension.arthurnun.es
+- Privacy notice: https://starscout-extension.arthurnun.es/privacy
+- Support: GitHub Issues
 
 ## Local Backend Setup
 
@@ -118,7 +125,7 @@ To package a Chrome dev-loaded beta zip:
 
 ```sh
 cd extension
-WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://starscout-extension-api.arthurnun.es" pnpm zip
+pnpm zip:beta
 ```
 
 The zip is generated under `extension/.output/`. Unzip it, open
@@ -132,6 +139,16 @@ The zip is generated under `extension/.output/`. Unzip it, open
 - The backend returns aggregate repo-level metrics only.
 - The public API is read-only and rate-limited.
 - Operational logs should avoid long-lived per-user browsing history.
+
+See `docs/privacy.md` for the public privacy notice content.
+
+## Public Repository Notes
+
+- The source code is MIT licensed.
+- The imported StarScout/Zenodo dataset and generated database dumps are not
+  committed and are not relicensed by this repository.
+- Real `.env` files, generated extension packages, `mongodb.zip`, restored
+  MongoDB files, and Postgres dumps must stay out of git.
 
 ## Attribution
 
@@ -162,3 +179,7 @@ See `docs/attribution.md`.
 - Backend lint: `cd backend && uv run ruff check .`
 - Extension type-check: `cd extension && pnpm compile`
 - Manual beta QA: see `docs/manual-qa.md`
+
+## License
+
+MIT. See `LICENSE`.

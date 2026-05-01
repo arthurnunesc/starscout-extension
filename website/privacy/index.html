@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Notice | StarScout Star Integrity</title>
+    <meta
+      name="description"
+      content="Privacy notice for the StarScout Star Integrity dev-loaded beta browser extension."
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="shell document">
+      <p class="eyebrow">Privacy notice</p>
+      <h1>StarScout Star Integrity Privacy Notice</h1>
+      <p>
+        The extension sends only the public GitHub repository identifier currently
+        being viewed, such as <code>owner/repo</code>, to the StarScout API. It
+        does not collect GitHub credentials, GitHub user identity,
+        extension-specific user IDs, or private repository data.
+      </p>
+
+      <h2>Data the extension sends</h2>
+      <ul>
+        <li>Public GitHub repository owner and name, for example <code>xai-org/grok-1</code>.</li>
+        <li>Standard browser request metadata sent by the browser when calling the API.</li>
+      </ul>
+
+      <h2>Data the extension does not send</h2>
+      <ul>
+        <li>GitHub credentials or tokens.</li>
+        <li>GitHub username or account identity.</li>
+        <li>Extension-specific user identifiers.</li>
+        <li>Private repository contents or private repository names.</li>
+        <li>Suspected actor-level stargazer identities.</li>
+      </ul>
+
+      <h2>How the API uses data</h2>
+      <p>
+        The API uses the public <code>owner/repo</code> identifier to return
+        aggregate StarScout-derived suspected non-legit star metrics for that
+        repository. Responses are repo-level aggregates only and do not expose
+        suspected actor lists.
+      </p>
+
+      <h2>Logs and retention</h2>
+      <p>
+        The backend logs operational data to support availability, debugging,
+        abuse prevention, and rate limiting. Because the repository name is part
+        of the API path, access logs from the API host, reverse proxy, or
+        container platform may contain public <code>owner/repo</code> paths.
+      </p>
+      <p>
+        Operational logs should not be used to build long-lived per-user browsing
+        history. Production deployments should keep log retention short and avoid
+        adding user identity or extension identifiers.
+      </p>
+
+      <h2>Sharing and sale</h2>
+      <p>
+        This project does not sell user data. The API is designed to return
+        aggregate public-repository metrics and does not require accounts, login,
+        or payment.
+      </p>
+
+      <h2>Scope and limitations</h2>
+      <ul>
+        <li>The extension supports public <code>github.com/{owner}/{repo}</code> pages.</li>
+        <li>Private repositories and GitHub Enterprise Server are not supported.</li>
+        <li>Missing StarScout aggregate data is shown as not analyzed, not as zero suspected stars.</li>
+        <li>Results are heuristic signals, not definitive claims that stars, users, or repositories are fake.</li>
+      </ul>
+
+      <h2>Support</h2>
+      <p>
+        For support or privacy questions, open a GitHub Issue in the project
+        repository.
+      </p>
+
+      <p><a href="/">Back to landing page</a></p>
+    </main>
+  </body>
+</html>
