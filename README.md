@@ -3,12 +3,6 @@
 Browser extension and backend API for showing StarScout-derived suspected non-legit
 star signals on public GitHub repository pages.
 
-This project is intentionally careful with wording: it shows heuristic suspected
-signals, not definitive fake-star accusations. It does not claim that any specific
-star, account, or repository is fake.
-
-## Screenshots
-
 The extension adds a `StarScout` signal near GitHub's native repository star
 metadata and opens a details popover with aggregate metrics and attribution.
 
@@ -26,7 +20,7 @@ metadata and opens a details popover with aggregate metrics and attribution.
 - Uses the StarScout Zenodo MongoDB dump imported into Postgres as aggregate-only
   serving data.
 
-## What It Does Not Claim
+## What It Does NOT Do
 
 - It does not prove that stars are fake.
 - It does not prove that remaining stars are legitimate.
@@ -52,7 +46,7 @@ Repository map:
 - `docs/` - Developer, architecture, deployment, QA, and attribution notes.
 - `plans/` - Implementation plans and acceptance criteria.
 
-## Privacy Posture
+## Privacy
 
 - The extension sends only the public `owner/repo` identifier to the backend.
 - The extension does not send user identity, GitHub credentials, extension-specific user IDs,
@@ -62,14 +56,6 @@ Repository map:
 - Operational logs should avoid long-lived per-user browsing history.
 
 See [docs/privacy.md](docs/privacy.md) for the public privacy notice content.
-
-## Public Repository Notes
-
-- The source code is MIT licensed.
-- The imported StarScout/Zenodo dataset and generated database dumps are not
-  committed and are not relicensed by this repository.
-- Real `.env` files, generated extension packages, `mongodb.zip`, restored
-  MongoDB files, and Postgres dumps must stay out of git.
 
 ## Attribution
 
@@ -96,4 +82,6 @@ See [docs/attribution.md](docs/attribution.md).
 
 ## License
 
-MIT. See `LICENSE`.
+- The source code is MIT licensed.
+- The imported StarScout/Zenodo dataset and generated database dumps are not
+  committed and are not relicensed by this repository.
