@@ -1,6 +1,7 @@
 const API_BASE_URL = import.meta.env.WXT_PUBLIC_STARSCOUT_API_BASE_URL ?? 'http://127.0.0.1:8000';
 const BADGE_ID = 'starscout-integrity-badge';
 const POPOVER_ID = 'starscout-integrity-popover';
+let popoverRemovalTimer: number | undefined;
 
 export default defineContentScript({
   matches: ['https://github.com/*/*'],
@@ -77,10 +78,11 @@ async function refreshBadge() {
     badge.title = 'Heuristic StarScout suspected non-legit star signal';
 
     badge.addEventListener('mouseenter', () => {
+      clearPopoverRemovalTimer();
       togglePopover(badge, result);
     });
     badge.addEventListener('mouseleave', () => {
-      removePopover();
+      schedulePopoverRemoval();
     });
   } catch (error) {
     console.warn('[StarScout] API request failed', error);
@@ -325,7 +327,10 @@ function createPopover(result: StarIntegrityResponse): HTMLDivElement {
   popover.innerHTML = result.analyzed ? analyzedPopoverHtml(result) : notAnalyzedPopoverHtml(result);
 
   popover.addEventListener('mouseenter', () => {
-    removePopover();
+    clearPopoverRemovalTimer();
+  });
+  popover.addEventListener('mouseleave', () => {
+    schedulePopoverRemoval();
   });
 
   return popover;
@@ -419,5 +424,18 @@ function escapeHtml(value: string): string {
 }
 
 function removePopover() {
+  clearPopoverRemovalTimer();
   document.getElementById(POPOVER_ID)?.remove();
+}
+
+function schedulePopoverRemoval() {
+  clearPopoverRemovalTimer();
+  popoverRemovalTimer = window.setTimeout(() => {
+    removePopover();
+  }, 150);
+}
+
+function clearPopoverRemovalTimer() {
+  window.clearTimeout(popoverRemovalTimer);
+  popoverRemovalTimer = undefined;
 }

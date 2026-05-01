@@ -1,4 +1,4 @@
-# Real GitHub Stars Extension
+# StarScout Extension
 
 Browser extension and backend API for showing StarScout-derived suspected non-legit
 star signals on public GitHub repository pages.
@@ -6,6 +6,15 @@ star signals on public GitHub repository pages.
 This project is intentionally careful with wording: it shows heuristic suspected
 signals, not definitive fake-star accusations. It does not claim that any specific
 star, account, or repository is fake.
+
+## Screenshots
+
+The extension adds a `StarScout` signal near GitHub's native repository star
+metadata and opens a details popover with aggregate metrics and attribution.
+
+| Desktop | Mobile |
+| --- | --- |
+| ![StarScout desktop badge with aggregate star integrity signal](docs/assets/readme/starscout-badge-desktop.png) | ![StarScout badge on a narrower GitHub layout](docs/assets/readme/starscout-badge-mobile.png) |
 
 ## What It Does
 
