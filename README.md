@@ -14,10 +14,14 @@ count and opens a details popover with aggregate metrics and attribution.
 
 ## Usage
 
-Download the release zip from GitHub, unzip it locally, open `chrome://extensions`,
-enable Developer mode, choose Load unpacked, and select the unzipped extension
-directory. Then open a public GitHub repository page and look for the `StarScout`
-badge near GitHub's native star control.
+1. Download the release zip from GitHub.
+2. Unzip it locally.
+3. Open `chrome://extensions`.
+4. Enable Developer mode.
+5. Choose Load unpacked.
+6. Select the unzipped extension directory.
+7. Open a public GitHub repository page and look for the `StarScout` badge near
+   GitHub's native star control.
 
 You can also follow the steps in the [Packaging](docs/development.md#packaging)
 section of `development.md` to build it yourself.
