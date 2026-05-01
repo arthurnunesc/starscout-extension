@@ -6,7 +6,7 @@ star signals on public GitHub repository pages.
 The extension adds a `StarScout` badge near GitHub's native repository star
 count and opens a details popover with aggregate metrics and attribution.
 
-### Results are bounded by the StarScout dataset cutoff, currently `2025-01-01`.
+### ⚠️ Results are bounded by the StarScout dataset cutoff, currently `2025-01-01`.
 
 | Desktop | Mobile |
 | --- | --- |
