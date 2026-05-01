@@ -1,7 +1,7 @@
 # Privacy Notice
 
-This notice is intended for the StarScout Star Integrity dev-loaded beta at
-`https://starscout-extension.arthurnun.es/privacy`.
+This notice is intended for the StarScout Star Integrity dev-loaded beta browser
+extension.
 
 ## Summary
 

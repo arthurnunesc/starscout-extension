@@ -3,10 +3,9 @@
 This document describes the dev-loaded beta distribution path for trusted
 testers. This is not a Chrome Web Store release.
 
-## Public URLs
+## Public Endpoints And References
 
-- Landing page: `https://starscout-extension.arthurnun.es`
-- Privacy notice: `https://starscout-extension.arthurnun.es/privacy`
+- Privacy notice: [privacy.md](privacy.md)
 - Support: GitHub Issues
 - API: `https://starscout-extension-api.arthurnun.es`
 
@@ -75,5 +74,5 @@ Then manually verify the scenarios in `docs/manual-qa.md`.
   and redistribution terms are confirmed.
 - Keep public wording neutral: suspected non-legit star signal, not proof of fake
   stars.
-- Include the landing page, privacy notice, and GitHub Issues support link in
-  every beta announcement.
+- Include the privacy notice and GitHub Issues support link in every beta
+  announcement.

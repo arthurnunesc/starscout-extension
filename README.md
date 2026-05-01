@@ -34,12 +34,6 @@ metadata and opens a details popover with aggregate metrics and attribution.
 - It does not support private repositories or GitHub Enterprise Server.
 - It does not replace GitHub's native star count.
 
-## Beta Links
-
-- Landing page: https://starscout-extension.arthurnun.es
-- Privacy notice: https://starscout-extension.arthurnun.es/privacy
-- Support: GitHub Issues
-
 ## Documentation
 
 Start here based on what you need:
@@ -55,7 +49,6 @@ Repository map:
 - `backend/` - FastAPI backend and importer managed with `uv`.
 - `extension/` - WXT + React browser extension.
 - `infra/` - Docker Compose infrastructure.
-- `website/` - Static landing page and privacy notice for the beta subdomain.
 - `docs/` - Developer, architecture, deployment, QA, and attribution notes.
 - `plans/` - Implementation plans and acceptance criteria.
 
