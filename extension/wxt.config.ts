@@ -1,10 +1,8 @@
 import { defineConfig } from 'wxt';
 
-const apiBaseUrl = process.env.WXT_PUBLIC_STARSCOUT_API_BASE_URL;
+const apiBaseUrl =
+  process.env.WXT_PUBLIC_STARSCOUT_API_BASE_URL ?? 'https://starscout-extension-api.arthurnun.es';
 const apiHostPermission = apiBaseUrl ? `${new URL(apiBaseUrl).origin}/*` : null;
-const localApiHostPermissions = apiBaseUrl
-  ? []
-  : ['http://127.0.0.1:8000/*', 'http://localhost:8000/*'];
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
@@ -15,7 +13,6 @@ export default defineConfig({
     permissions: [],
     host_permissions: [
       'https://github.com/*',
-      ...localApiHostPermissions,
       ...(apiHostPermission ? [apiHostPermission] : []),
     ],
   },
