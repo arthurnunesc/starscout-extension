@@ -2,64 +2,91 @@
 
 ## Goal
 
-Prepare the StarScout browser extension and supporting backend/documentation for a
-direct Chrome Web Store submission.
+Prepare the remaining StarScout browser extension, backend, and documentation work
+needed for a direct Chrome Web Store submission.
 
-## 1. Audit Store Readiness
+## Current Baseline
 
-- Inspect the generated Chrome MV3 manifest from WXT.
-- Verify extension name, description, version, icons, permissions, and host permissions.
-- Confirm no local-only API URLs or localhost permissions are present in the production package.
-- Confirm the extension calls only `https://starscout-extension-api.arthurnun.es` in the store build.
+- WXT already generates a Chrome MV3 manifest.
+- The generated manifest already has no extension permissions.
+- The generated manifest already includes host permissions for:
+  - `https://github.com/*`
+  - `https://starscout-extension-api.arthurnun.es/*`
+- The extension already defaults to `https://starscout-extension-api.arthurnun.es`.
+- Backend CORS and repo-integrity rate limiting already exist in code.
+- Dataset dumps and generated packages are already excluded from git.
 
-## 2. Create Production Packaging Path
+## 1. Fix Publication Blockers
 
-- Add a dedicated Chrome Web Store packaging command.
-- Keep local/dev packaging separate from production packaging.
-- Ensure the production command sets:
+- Replace the default popup title in `extension/entrypoints/popup/index.html`.
+- Ensure the generated `action.default_title` is not `Default Popup Title`.
+- Replace user-facing “dev-loaded beta” wording in the popup with Chrome Web
+  Store-ready language.
+- Keep all user-facing language neutral:
+  - use “suspected non-legit stars”;
+  - use “heuristic signal”;
+  - do not claim that stars, users, or repositories are fake.
+
+## 2. Create Store-Specific Packaging Command
+
+- Add a dedicated Chrome Web Store packaging command, for example
+  `pnpm zip:chrome-store`.
+- Keep local/dev and beta packaging separate from Store packaging.
+- Ensure the Store command sets:
   - `WXT_PUBLIC_STARSCOUT_API_BASE_URL=https://starscout-extension-api.arthurnun.es`
-  - production-only host permissions
   - Chrome MV3 output
 - Document the exact generated zip path.
+- After generating the final zip, inspect the packaged manifest and bundled code
+  for local-only URLs such as `localhost` or `127.0.0.1`.
 
-## 3. Privacy Policy
+## 3. Publish Privacy Policy
 
-- Draft a public privacy policy explaining:
-  - the extension sends only public `owner/repo` identifiers;
-  - it does not collect user identity;
-  - it does not collect GitHub credentials;
-  - it does not inspect private repositories;
-  - backend logs should avoid long-lived browsing history;
-  - GitHub metadata is fetched/cached server-side;
-  - user data is not sold or shared.
-- Add the privacy policy to the repo.
+- Convert `docs/privacy.md` from a dev-loaded beta notice into public Chrome Web
+  Store privacy policy content.
+- Include:
+  - effective date;
+  - public `owner/repo` identifiers sent to the API;
+  - standard request metadata such as IP address and user agent;
+  - no GitHub credentials collected;
+  - no GitHub account identity collected;
+  - no extension-specific user ID collected;
+  - no private repositories inspected;
+  - repo-level aggregate responses only;
+  - GitHub metadata fetched/cached server-side;
+  - operational logging purpose and retention posture;
+  - no sale or sharing of user data;
+  - GitHub Issues support link.
 - Decide and document the public hosting URL.
 - Recommended URL: `https://arthurnun.es/starscout-extension/privacy`.
+- Verify the hosted URL is public before submitting the Store listing.
 
-## 4. Store Listing Content
+## 4. Draft Store Listing Content
 
-- Draft Chrome Web Store listing copy:
+- Create `docs/chrome-web-store.md` with:
   - extension name;
   - short description;
   - full description;
   - single-purpose statement;
   - permission justification;
+  - host-permission justification;
   - data usage answers;
-  - support/contact information.
-- Save the copy in `docs/chrome-web-store.md`.
+  - privacy policy URL;
+  - support/contact URL.
+- Ensure the listing copy uses the same neutral terminology as the extension UI.
 
-## 5. Icons And Branding
+## 5. Replace Icons And Branding
 
-- Replace default WXT icons if they are still generic.
+- Replace the default WXT puzzle-piece icons in `extension/public/icon/`.
 - Ensure required icon sizes exist:
   - `16x16`
   - `32x32`
   - `48x48`
   - `128x128`
-- Prefer a neutral, non-accusatory StarScout-style visual language.
+- Keep optional `96x96` if still useful for generated manifests.
+- Use a neutral StarScout-style visual language.
 - Avoid alarming colors or “fake star” imagery.
 
-## 6. Screenshots And Store Assets
+## 6. Create Store Screenshots And Assets
 
 - Capture Chrome Web Store screenshots for:
   - analyzed repository badge;
@@ -68,29 +95,37 @@ direct Chrome Web Store submission.
 - Use accepted screenshot dimensions such as `1280x800` or `640x400`.
 - Store source screenshots under `docs/store-assets/screenshots/`.
 - Optional: create promotional tile assets if desired.
+- Verify screenshots do not imply proof of fake stars, fake users, or fake
+  repositories.
 
-## 7. Backend Production Checks
+## 7. Verify Production Backend Operations
 
-- Verify production API routes:
+- Verify live production routes:
   - `GET https://starscout-extension-api.arthurnun.es/health`
   - analyzed repo integrity route;
   - not-analyzed repo integrity route.
 - Confirm HTTPS works.
-- Confirm CORS supports the published Chrome extension origin if needed.
-- Confirm rate limiting is enabled.
+- Confirm CORS works for extension requests.
+- Confirm live rate limiting behavior is acceptable for Store users.
 - Confirm Postgres backups and basic uptime monitoring are planned or configured.
+- Confirm production logs do not intentionally retain long-lived per-user browsing
+  history.
 
 ## 8. Exact ZIP Verification
 
 - Build the exact production zip intended for upload.
 - Unzip it and load it manually in Chrome through `chrome://extensions`.
 - Verify:
+  - manifest name, description, icons, action title, permissions, and host
+    permissions;
+  - bundled code calls only `https://starscout-extension-api.arthurnun.es`;
   - analyzed repo works;
   - not-analyzed repo works;
   - popover opens and does not navigate away;
   - GitHub SPA navigation updates the badge;
   - extension reload works;
-  - no badge appears on unsupported GitHub pages.
+  - no badge appears on unsupported GitHub pages;
+  - popup language is Store-ready and not beta/dev-only.
 - Record the result in `docs/manual-qa.md` or a dedicated release checklist.
 
 ## 9. Chrome Web Store Submission Checklist
@@ -105,20 +140,24 @@ direct Chrome Web Store submission.
   - full description;
   - permission justifications;
   - data usage declarations.
-- The Chrome Web Store developer account and final upload must be done by the account owner.
+- Confirm the Store listing, extension UI, screenshots, README, and privacy
+  policy use consistent terminology.
+- The Chrome Web Store developer account and final upload must be done by the
+  account owner.
 
 ## 10. Commit And Push
 
 - Commit production packaging scripts/configuration.
-- Commit privacy policy and store listing docs.
+- Commit privacy policy and Store listing docs.
 - Commit icons and screenshots.
 - Commit release checklist updates.
-- Push everything before submitting the store package.
+- Push everything before submitting the Store package.
 
 ## Decisions Needed
 
 - Final extension name.
 - Privacy policy hosting location.
 - Support/contact email or URL.
-- Whether to create new branding/icons or use existing assets.
-- Whether Chrome-only is enough for this release, or Firefox packaging should also be prepared.
+- Whether to create new branding/icons or adapt existing StarScout-style assets.
+- Whether Chrome-only is enough for this release, or Firefox packaging should
+  also be prepared later.
