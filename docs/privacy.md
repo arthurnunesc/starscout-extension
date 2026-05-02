@@ -1,24 +1,25 @@
-# Privacy Notice
+# Privacy Policy
 
-This notice is intended for the StarScout Star Integrity dev-loaded beta browser
-extension.
+**Effective date:** 2026-05-02
 
-## Summary
+This privacy policy describes how the StarScout Star Integrity browser extension
+("the extension") handles information.
 
-The extension sends only the public GitHub repository identifier currently being
-viewed, such as `owner/repo`, to the StarScout API. It does not collect GitHub
-credentials, GitHub user identity, extension-specific user IDs, or private
-repository data.
+## Data The Extension Collects And Sends
 
-## Data The Extension Sends
+When you visit a public GitHub repository page that the extension recognizes, the
+extension sends the following information to the StarScout API:
 
-- Public GitHub repository owner and name, for example `xai-org/grok-1`.
-- Standard browser request metadata sent by the browser when calling the API,
-  such as IP address and user agent.
+- The public GitHub repository identifier currently being viewed, such as
+  `owner/repo` (for example, `xai-org/grok-1`).
+- Standard browser request metadata automatically sent by the browser when
+  calling the API, such as IP address and user agent.
 
-## Data The Extension Does Not Send
+## Data The Extension Does Not Collect
 
-- GitHub credentials or tokens.
+The extension does **not** collect or send any of the following:
+
+- GitHub credentials, tokens, or passwords.
 - GitHub username or account identity.
 - Extension-specific user identifiers.
 - Private repository contents or private repository names.
@@ -40,10 +41,15 @@ prevention, and rate limiting. Because the repository name is part of the API
 path, access logs from the API host, reverse proxy, or container platform may
 contain public `owner/repo` paths.
 
+Operational logs are retained only as long as necessary for the purposes
+described above. The project does not intentionally retain long-lived per-user
+browsing history.
+
 ## Sharing And Sale
 
 This project does not sell user data. The API is designed to return aggregate
-public-repository metrics and does not require accounts, login, or payment.
+public-repository metrics and does not require accounts, login, or payment. User
+data is not shared with third parties.
 
 ## Scope And Limitations
 
@@ -54,6 +60,7 @@ public-repository metrics and does not require accounts, login, or payment.
 - Results are heuristic signals, not definitive claims that stars, users, or
   repositories are fake.
 
-## Support
+## Contact And Support
 
-For support or privacy questions, open a GitHub Issue in the project repository.
+For support or privacy questions, open a GitHub Issue in the project repository:
+https://github.com/arthurnunesc/starscout-extension/issues

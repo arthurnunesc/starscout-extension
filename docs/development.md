@@ -137,16 +137,28 @@ verification steps.
 
 ## Packaging
 
-This project currently uses a dev-loaded beta distribution path for trusted
-testers. This is not a Chrome Web Store release.
+### Chrome Web Store Release
 
-Public beta references:
+To build the production zip intended for Chrome Web Store submission:
 
-- Privacy notice: [privacy.md](privacy.md)
-- Support: [GitHub Issues](https://github.com/arthurnunesc/starscout-extension/issues)
-- API: `https://starscout-extension-api.arthurnun.es`
+```sh
+cd extension
+pnpm zip:chrome-store
+```
 
-To package a Chrome dev-loaded beta zip:
+This script:
+- Sets `WXT_PUBLIC_STARSCOUT_API_BASE_URL=https://starscout-extension-api.arthurnun.es`
+- Generates a Chrome MV3 zip under `extension/.output/`
+
+After generating the zip, inspect the packaged manifest and bundled code for
+local-only URLs such as `localhost` or `127.0.0.1` before uploading.
+
+The exact generated zip path is:
+`extension/.output/starscout-extension-<version>-chrome.zip`
+
+### Dev-Loaded Beta (for local testing)
+
+To package a Chrome dev-loaded beta zip for trusted testers:
 
 ```sh
 cd extension
@@ -175,7 +187,7 @@ GitHub repository pages.
 To uninstall, open `chrome://extensions`, find `StarScout Star Integrity`, and
 click Remove.
 
-Before sharing a beta, run the verification checklist:
+Before sharing a beta or submitting to the Store, run the verification checklist:
 
 ```sh
 cd backend
@@ -184,7 +196,7 @@ uv run ruff check .
 
 cd ../extension
 pnpm compile
-pnpm zip:beta
+pnpm zip:chrome-store
 ```
 
 Then manually verify the scenarios in [manual-qa.md](manual-qa.md).

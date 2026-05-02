@@ -10,6 +10,9 @@ export default defineConfig({
   manifest: {
     name: 'StarScout Star Integrity',
     description: 'Shows heuristic suspected non-legit star signals on public GitHub repository pages.',
+    action: {
+      default_title: 'StarScout Star Integrity',
+    },
     permissions: [],
     host_permissions: [
       'https://github.com/*',
