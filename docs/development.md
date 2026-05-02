@@ -184,7 +184,7 @@ unzip it into a fresh local directory, open `chrome://extensions`, remove the
 previous StarScout beta or click Reload after replacing the folder, and refresh
 GitHub repository pages.
 
-To uninstall, open `chrome://extensions`, find `StarScout Star Integrity`, and
+To uninstall, open `chrome://extensions`, find `StarScout - See Suspected Non-Legit Stars on GitHub repos`, and
 click Remove.
 
 Before sharing a beta or submitting to the Store, run the verification checklist:

@@ -14,7 +14,7 @@ Copy the values from `docs/chrome-web-store.md`:
 
 | Field | Value |
 |-------|-------|
-| Extension name | StarScout Star Integrity |
+| Extension name | StarScout - See Suspected Non-Legit Stars on GitHub repos |
 | Short description | Shows heuristic suspected non-legit star signals on public GitHub repositories. |
 | Full description | See `docs/chrome-web-store.md` |
 | Category | Developer Tools |

@@ -8,10 +8,10 @@ const apiHostPermission = apiBaseUrl ? `${new URL(apiBaseUrl).origin}/*` : null;
 export default defineConfig({
   modules: ['@wxt-dev/module-react'],
   manifest: {
-    name: 'StarScout Star Integrity',
+    name: 'StarScout - See Suspected Non-Legit Stars on GitHub repos',
     description: 'Shows heuristic suspected non-legit star signals on public GitHub repository pages.',
     action: {
-      default_title: 'StarScout Star Integrity',
+      default_title: 'StarScout - See Suspected Non-Legit Stars on GitHub repos',
     },
     permissions: [],
     host_permissions: [

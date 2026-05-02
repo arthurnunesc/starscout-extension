@@ -1,22 +1,22 @@
 # Manual QA Checklist
 
 This checklist covers verification steps for the Chrome Web Store release of the
-StarScout Star Integrity extension.
+StarScout - See Suspected Non-Legit Stars on GitHub repos extension.
 
 ## Automated / Programmatic Verification
 
 The following were verified during the build process:
 
-- [x] **Manifest name**: `StarScout Star Integrity`
+- [x] **Manifest name**: `StarScout - See Suspected Non-Legit Stars on GitHub repos`
 - [x] **Manifest description**: `Shows heuristic suspected non-legit star signals on public GitHub repository pages.`
 - [x] **Manifest version**: `0.1.0`
-- [x] **Action default title**: `StarScout Star Integrity`
+- [x] **Action default title**: `StarScout - See Suspected Non-Legit Stars on GitHub repos`
 - [x] **Icons present**: 16, 32, 48, 96, 128
 - [x] **Permissions**: empty array (no extension permissions requested)
 - [x] **Host permissions**: `https://github.com/*`, `https://starscout-extension-api.arthurnun.es/*`
 - [x] **No local-only URLs in bundled code**: no `localhost` or `127.0.0.1` references found
 - [x] **Production API URL baked in**: `https://starscout-extension-api.arthurnun.es`
-- [x] **Popup title**: `StarScout Star Integrity` (not "Default Popup Title")
+- [x] **Popup title**: `StarScout - See Suspected Non-Legit Stars on GitHub repos` (not "Default Popup Title")
 - [x] **Popup language**: Store-ready, no "dev-loaded beta" wording
 - [x] **Backend health**: `GET /health` returns 200 `{"status":"ok","service":"StarScout API"}`
 - [x] **Analyzed repo endpoint**: `GET /repos/xai-org/grok-1/star-integrity` returns 200 with aggregate metrics
@@ -65,13 +65,13 @@ Store submission:
 
 6. **Extension popup**:
    - [ ] Click the extension icon in the Chrome toolbar
-   - [ ] Verify the popup title is `StarScout Star Integrity`
+   - [ ] Verify the popup title is `StarScout - See Suspected Non-Legit Stars on GitHub repos`
    - [ ] Verify popup text does not contain "beta" or "dev-loaded"
    - [ ] Verify popup language is neutral
 
 7. **Extension reload**:
    - [ ] Open `chrome://extensions`
-   - [ ] Click the reload icon on StarScout Star Integrity
+   - [ ] Click the reload icon on StarScout - See Suspected Non-Legit Stars on GitHub repos
    - [ ] Return to a GitHub repo page
    - [ ] Verify the badge reappears after reload
 

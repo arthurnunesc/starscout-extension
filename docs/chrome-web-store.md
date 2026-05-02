@@ -5,7 +5,7 @@ dashboard submission.
 
 ## Extension Name
 
-StarScout Star Integrity
+StarScout - See Suspected Non-Legit Stars on GitHub repos
 
 ## Short Description (max 132 characters)
 
@@ -13,7 +13,7 @@ Shows heuristic suspected non-legit star signals on public GitHub repositories.
 
 ## Full Description
 
-StarScout Star Integrity adds a neutral badge near GitHub's native star count on
+StarScout - See Suspected Non-Legit Stars on GitHub repos adds a neutral badge near GitHub's native star count on
 public repository pages. When a repository has been analyzed by the StarScout
 dataset, the badge shows the estimated percentage of suspected non-legit stars
 based on heuristic signals. Clicking or hovering the badge opens a popover with

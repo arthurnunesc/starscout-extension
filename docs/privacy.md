@@ -2,7 +2,7 @@
 
 **Effective date:** 2026-05-02
 
-This privacy policy describes how the StarScout Star Integrity browser extension
+This privacy policy describes how the StarScout - See Suspected Non-Legit Stars on GitHub repos browser extension
 ("the extension") handles information.
 
 ## Data The Extension Collects And Sends
