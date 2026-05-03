@@ -92,3 +92,11 @@ English
   repositories.
 
 Store screenshots are stored in `docs/store-assets/screenshots/`.
+
+## Promotional Image Requirements
+
+- Upload `docs/store-assets/promotional/small-promo-tile.png` as the small
+  promotional tile.
+- Required dimensions: 440x280.
+- Promotional imagery must not imply proof of fake stars, fake users, or fake
+  repositories.

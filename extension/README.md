@@ -24,7 +24,7 @@ pnpm zip:beta
 `pnpm zip` also targets the deployed backend by default. Local development uses
 `http://127.0.0.1:8000` through `pnpm dev`.
 
-The package is generated at `.output/starscout-extension-0.1.0-chrome.zip`.
+The package is generated at `.output/starscout-extension-0.1.1-chrome.zip`.
 
 Beta tester installation:
 

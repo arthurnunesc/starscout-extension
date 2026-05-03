@@ -9,7 +9,7 @@ The following were verified during the build process:
 
 - [x] **Manifest name**: `StarScout - See Suspected Non-Legit Stars on GitHub repos`
 - [x] **Manifest description**: `Shows heuristic suspected non-legit star signals on public GitHub repository pages.`
-- [x] **Manifest version**: `0.1.0`
+- [x] **Manifest version**: `0.1.1`
 - [x] **Action default title**: `StarScout - See Suspected Non-Legit Stars on GitHub repos`
 - [x] **Icons present**: 16, 32, 48, 96, 128
 - [x] **Permissions**: empty array (no extension permissions requested)
@@ -33,7 +33,7 @@ Store submission:
    ```sh
    cd extension
    pnpm zip:chrome-store
-   unzip .output/starscout-extension-0.1.0-chrome.zip -d /tmp/starscout-store-test
+   unzip .output/starscout-extension-0.1.1-chrome.zip -d /tmp/starscout-store-test
    ```
    Then open `chrome://extensions`, enable Developer mode, click **Load unpacked**,
    and select `/tmp/starscout-store-test`.
@@ -81,6 +81,7 @@ Store submission:
    - [ ] Review `docs/store-assets/screenshots/analyzed-repo-desktop.png`
    - [ ] Review `docs/store-assets/screenshots/analyzed-repo-popover.png`
    - [ ] Review `docs/store-assets/screenshots/not-analyzed-repo.png`
+   - [ ] Review `docs/store-assets/screenshots/analyzed-repo-low-signal.png`
    - [ ] Confirm screenshots do not imply proof of fake stars, fake users, or fake repositories
    - [ ] Confirm screenshots are 1280x800 or 640x400
 
