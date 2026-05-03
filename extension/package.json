@@ -2,7 +2,7 @@
   "name": "starscout-extension",
   "description": "GitHub star integrity badge powered by StarScout-derived signals.",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "dev": "WXT_PUBLIC_STARSCOUT_API_BASE_URL=http://127.0.0.1:8000 wxt",
