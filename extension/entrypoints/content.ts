@@ -36,6 +36,8 @@ type BadgePlacement =
   | { mode: 'desktop-border-grid'; starStat: HTMLElement }
   | { mode: 'mobile-responsive-meta'; container: HTMLElement; repo: GitHubRepo };
 
+type RepositoryVisibility = 'public' | 'private' | 'unknown';
+
 function installBadgeUpdater() {
   let lastUrl = '';
   let retryTimer: number | undefined;
@@ -65,7 +67,7 @@ async function refreshBadge() {
   if (!repo) {
     return;
   }
-  if (isPrivateRepositoryPage()) {
+  if (getRepositoryVisibility(repo) !== 'public') {
     return;
   }
 
@@ -104,15 +106,51 @@ function parseGitHubRepo(location: Location): GitHubRepo | null {
   return { owner, repo };
 }
 
-function isPrivateRepositoryPage(): boolean {
-  const repoHeader = document.getElementById('repository-container-header');
-  if (!repoHeader) {
-    return false;
+function getRepositoryVisibility(repo: GitHubRepo): RepositoryVisibility {
+  const expectedRepo = `${repo.owner}/${repo.repo}`.toLowerCase();
+  const repositoryNwoMeta = document.querySelector<HTMLMetaElement>(
+    'meta[name="octolytics-dimension-repository_nwo"]',
+  );
+  const repositoryNwo = repositoryNwoMeta?.content.trim().toLowerCase();
+  const repositoryPublicMeta = document.querySelector<HTMLMetaElement>(
+    'meta[name="octolytics-dimension-repository_public"]',
+  );
+  const repositoryPublic = repositoryPublicMeta?.content.trim().toLowerCase();
+
+  if (repositoryNwo === expectedRepo) {
+    if (repositoryPublic === 'true') {
+      return 'public';
+    }
+    if (repositoryPublic === 'false') {
+      return 'private';
+    }
+  } else if (repositoryNwo) {
+    return 'unknown';
   }
 
-  return Array.from(repoHeader.querySelectorAll<HTMLElement>('.Label')).some(
-    (element) => element.textContent?.trim().toLowerCase() === 'private',
+  const repoHeader = document.getElementById('repository-container-header');
+  if (!repoHeader || !repoHeaderMatches(repoHeader, expectedRepo)) {
+    return 'unknown';
+  }
+
+  const labels = Array.from(repoHeader.querySelectorAll<HTMLElement>('.Label')).map((element) =>
+    element.textContent?.trim().toLowerCase(),
   );
+  if (labels.includes('public')) {
+    return 'public';
+  }
+  if (labels.includes('private')) {
+    return 'private';
+  }
+
+  return 'unknown';
+}
+
+function repoHeaderMatches(repoHeader: HTMLElement, expectedRepo: string): boolean {
+  return Array.from(repoHeader.querySelectorAll<HTMLAnchorElement>('a[href]')).some((link) => {
+    const pathname = new URL(link.href, window.location.origin).pathname.replace(/^\/+|\/+$/g, '');
+    return pathname.toLowerCase() === expectedRepo;
+  });
 }
 
 function findBadgePlacement(repo: GitHubRepo): BadgePlacement | null {
