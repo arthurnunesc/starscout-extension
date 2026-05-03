@@ -173,7 +173,7 @@ Add the popover that explains the aggregate result, shows the estimated legitima
 - [x] Popover opens from the badge without navigating away from GitHub.
 - [x] Popover shows current stars, suspected non-legit stars, estimated legitimate stars, and suspected percentage.
 - [x] Popover shows low-activity, lockstep, and overlap breakdowns.
-- [x] Popover explains that results are heuristic and may include false positives.
+- [x] Popover explains that results are heuristic and can include false positives.
 - [x] Popover shows StarScout analyzed-through date.
 - [x] Popover shows warnings for stale/mismatched data when returned by the API.
 - [x] Popover includes visible attribution to StarScout, the paper, and Zenodo.

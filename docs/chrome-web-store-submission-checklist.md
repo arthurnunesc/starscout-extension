@@ -48,7 +48,7 @@ Upload from `docs/store-assets/screenshots/`:
   - User-identifiable: No
   - Sell data: No
   - Use for other purposes: No
-  - Transfer to third parties: No
+  - Third-party transfer: The backend tries to query GitHub for public repository metadata; no sale or account-identity sharing
 
 ## Single-Purpose Statement
 

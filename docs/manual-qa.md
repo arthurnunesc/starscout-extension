@@ -42,8 +42,8 @@ Store submission:
    - [ ] Navigate to `https://github.com/xai-org/grok-1`
    - [ ] Verify the `StarScout` badge appears near the native star count
    - [ ] Verify the badge shows a percentage (e.g., `85.53% suspected`)
-   - [ ] Hover the badge and verify the popover opens with aggregate metrics
-   - [ ] Verify the popover does not navigate away when clicked
+   - [ ] Hover, click, and keyboard-focus the badge and verify the popover opens with aggregate metrics
+   - [ ] Verify the badge and popover do not navigate away when clicked
    - [ ] Verify popover attribution and dataset cutoff are present
 
 3. **Not-analyzed repository**:
@@ -56,6 +56,8 @@ Store submission:
    - [ ] Verify no StarScout badge appears
    - [ ] Navigate to `https://github.com/xai-org` (user/org profile, no repo)
    - [ ] Verify no badge appears
+   - [ ] Navigate to a private repository page available to the tester
+   - [ ] Verify no StarScout badge appears and no StarScout API request is sent
 
 5. **SPA navigation**:
    - [ ] Start on `https://github.com/xai-org/grok-1`

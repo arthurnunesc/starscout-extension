@@ -65,6 +65,9 @@ async function refreshBadge() {
   if (!repo) {
     return;
   }
+  if (isPrivateRepositoryPage()) {
+    return;
+  }
 
   const placement = findBadgePlacement(repo);
   if (!placement) {
@@ -78,13 +81,7 @@ async function refreshBadge() {
     updateBadgeText(badge, result);
     badge.title = 'Heuristic StarScout suspected non-legit star signal';
 
-    badge.addEventListener('mouseenter', () => {
-      clearPopoverRemovalTimer();
-      togglePopover(badge, result);
-    });
-    badge.addEventListener('mouseleave', () => {
-      schedulePopoverRemoval();
-    });
+    installPopoverInteractions(badge, result);
   } catch (error) {
     console.warn('[StarScout] API request failed', error);
     badge.textContent = 'StarScout: unavailable';
@@ -105,6 +102,17 @@ function parseGitHubRepo(location: Location): GitHubRepo | null {
   }
 
   return { owner, repo };
+}
+
+function isPrivateRepositoryPage(): boolean {
+  const repoHeader = document.getElementById('repository-container-header');
+  if (!repoHeader) {
+    return false;
+  }
+
+  return Array.from(repoHeader.querySelectorAll<HTMLElement>('.Label')).some(
+    (element) => element.textContent?.trim().toLowerCase() === 'private',
+  );
 }
 
 function findBadgePlacement(repo: GitHubRepo): BadgePlacement | null {
@@ -248,6 +256,37 @@ function createDesktopBadge(text: string, percent: number | null): HTMLAnchorEle
   return badge;
 }
 
+function installPopoverInteractions(badge: HTMLElement, result: StarIntegrityResponse): void {
+  badge.addEventListener('mouseenter', () => {
+    clearPopoverRemovalTimer();
+    showPopover(badge, result);
+  });
+  badge.addEventListener('mouseleave', () => {
+    schedulePopoverRemoval();
+  });
+  badge.addEventListener('focus', () => {
+    clearPopoverRemovalTimer();
+    showPopover(badge, result);
+  });
+  badge.addEventListener('blur', () => {
+    schedulePopoverRemoval();
+  });
+  badge.addEventListener('click', (event) => {
+    event.preventDefault();
+    clearPopoverRemovalTimer();
+    showPopover(badge, result);
+  });
+  badge.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') {
+      return;
+    }
+
+    event.preventDefault();
+    clearPopoverRemovalTimer();
+    showPopover(badge, result);
+  });
+}
+
 function removeBadge() {
   document.getElementById(BADGE_ID)?.remove();
   removePopover();
@@ -298,7 +337,7 @@ function updateBadgeText(badge: HTMLElement, result: StarIntegrityResponse): voi
   }
 }
 
-function togglePopover(anchor: HTMLElement, result: StarIntegrityResponse) {
+function showPopover(anchor: HTMLElement, result: StarIntegrityResponse) {
   removePopover();
 
   const popover = createPopover(result);

@@ -182,12 +182,12 @@ failure or VPS reboot unless intentionally stopped by an operator.
 
 ## Logging
 
-The backend logs to stdout/stderr through Uvicorn. Let the VPS/container runtime own
-log rotation and retention. Avoid storing long-lived per-user browsing history; the
-API does not require user identity or extension identifiers.
+The backend logs to stdout/stderr through Uvicorn. The VPS/container runtime owns
+log rotation and retention; configure it to avoid long-lived per-user browsing
+history. The API does not require user identity or extension identifiers.
 
 Repository names are part of the API path, so API access logs and reverse-proxy
-logs may contain public `owner/repo` identifiers. Keep retention short and avoid
+logs contain public `owner/repo` identifiers. Keep retention short and avoid
 adding user identity or extension-specific IDs to logs.
 
 ## Extension Backend URL
@@ -200,8 +200,9 @@ cd extension
 WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://YOUR_API_HOST" pnpm dev
 ```
 
-For local development, omit the variable and the extension defaults to
-`http://127.0.0.1:8000`.
+For local development, use `pnpm dev`; that script injects
+`WXT_PUBLIC_STARSCOUT_API_BASE_URL=http://127.0.0.1:8000`. The source fallback
+URL is the production API.
 
 ## Package Dev-Loaded Extension
 

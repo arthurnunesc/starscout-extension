@@ -16,18 +16,18 @@ Shows heuristic suspected non-legit star signals on public GitHub repositories.
 StarScout - See Suspected Non-Legit Stars on GitHub repos adds a neutral badge near GitHub's native star count on
 public repository pages. When a repository has been analyzed by the StarScout
 dataset, the badge shows the estimated percentage of suspected non-legit stars
-based on heuristic signals. Clicking or hovering the badge opens a popover with
-aggregate metrics, including current GitHub stars, estimated legitimate stars,
-breakdown categories, and dataset attribution.
+based on heuristic signals. Clicking, focusing, or hovering the badge opens a
+popover with aggregate metrics, including current GitHub stars when available,
+estimated legitimate stars, breakdown categories, and dataset attribution.
 
 The extension does not prove that stars are fake, does not expose suspected
 actor identities, and does not support private repositories or GitHub Enterprise
 Server. Missing data is shown as "not analyzed," not as zero suspected stars.
 
-This extension sends only the public `owner/repo` identifier of the repository
-you are viewing to the StarScout API. It does not collect GitHub credentials,
-account identity, extension-specific user IDs, or private repository data. See
-the privacy policy for full details.
+This extension sends only the public `owner/repo` identifier of a recognized
+public repository page to the StarScout API. It does not collect GitHub
+credentials, account identity, extension-specific user IDs, or private
+repository names or contents. See the privacy policy for full details.
 
 Data and methodology attribution: StarScout, ICSE 2026 paper, and Zenodo DOI
 10.5281/zenodo.17009694.
@@ -53,9 +53,9 @@ functionality is implemented through `host_permissions` and content scripts.
 
 ## Data Usage Answers (Chrome Web Store questionnaire)
 
-- **Do you transmit user data?** Yes — the public `owner/repo` identifier and
-  standard browser request metadata (IP, user agent) are sent to the StarScout
-  API.
+- **Do you transmit user data?** Yes — the public `owner/repo` identifier for a
+  recognized public repository page and standard browser request metadata (IP,
+  user agent) are sent to the StarScout API.
 - **Is the data transmitted secure?** Yes — the API uses HTTPS.
 - **Is the data transmitted user-identifiable?** No — the extension does not
   send GitHub identity, credentials, extension-specific user IDs, or private
@@ -63,7 +63,9 @@ functionality is implemented through `host_permissions` and content scripts.
 - **Do you sell user data?** No.
 - **Do you use user data for purposes other than the extension's single purpose?**
   No.
-- **Do you transfer user data to third parties?** No.
+- **Do you transfer user data to third parties?** The service does not sell user
+  data or share account identity. The backend tries to query GitHub for public
+  repository metadata needed to provide the feature.
 
 ## Privacy Policy URL
 

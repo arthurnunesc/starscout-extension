@@ -105,7 +105,7 @@ pnpm dev
 ```
 
 Load the generated WXT development extension in your browser. For local backend usage,
-no extra configuration is required; the extension defaults to `http://127.0.0.1:8000`.
+`pnpm dev` injects `WXT_PUBLIC_STARSCOUT_API_BASE_URL=http://127.0.0.1:8000`.
 
 To point the dev-loaded extension at a deployed backend:
 
@@ -149,6 +149,9 @@ pnpm zip:chrome-store
 This script:
 - Sets `WXT_PUBLIC_STARSCOUT_API_BASE_URL=https://starscout-extension-api.arthurnun.es`
 - Generates a Chrome MV3 zip under `extension/.output/`
+
+The source fallback API URL is also `https://starscout-extension-api.arthurnun.es`;
+local development uses the script-injected URL above.
 
 After generating the zip, inspect the packaged manifest and bundled code for
 local-only URLs such as `localhost` or `127.0.0.1` before uploading.
