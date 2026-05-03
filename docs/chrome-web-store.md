@@ -67,7 +67,7 @@ functionality is implemented through `host_permissions` and content scripts.
 
 ## Privacy Policy URL
 
-https://arthurnun.es/starscout-extension/privacy
+https://arthurnun.es/projects/starscout-extension/privacy
 
 ## Support / Contact URL
 

@@ -24,7 +24,7 @@ Copy the values from `docs/chrome-web-store.md`:
 
 | Field | Value |
 |-------|-------|
-| Privacy policy | https://arthurnun.es/starscout-extension/privacy |
+| Privacy policy | https://arthurnun.es/projects/starscout-extension/privacy |
 | Support / Contact | https://github.com/arthurnunesc/starscout-extension/issues |
 | Website (optional) | https://github.com/arthurnunesc/starscout-extension |
 

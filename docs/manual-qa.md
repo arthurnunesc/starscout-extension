@@ -88,7 +88,7 @@ Before submitting, verify consistent terminology across all surfaces:
 
 - [ ] Extension UI (badge, popover, popup)
 - [ ] `docs/chrome-web-store.md` listing copy
-- [ ] Public privacy policy at `https://arthurnun.es/starscout-extension/privacy`
+- [ ] Public privacy policy at `https://arthurnun.es/projects/starscout-extension/privacy`
 - [ ] `README.md`
 - [ ] Screenshots
 

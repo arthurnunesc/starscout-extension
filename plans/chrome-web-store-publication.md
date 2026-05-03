@@ -57,7 +57,7 @@ needed for a direct Chrome Web Store submission.
   - no sale or sharing of user data;
   - GitHub Issues support link.
 - Decide and document the public hosting URL.
-- Recommended URL: `https://arthurnun.es/starscout-extension/privacy`.
+- Recommended URL: `https://arthurnun.es/projects/starscout-extension/privacy`.
 - Verify the hosted URL is public before submitting the Store listing.
 
 ## 4. Draft Store Listing Content
