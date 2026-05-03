@@ -50,7 +50,7 @@ Start here based on what you need:
 
 - Development setup, deployment, packaging, and verification: [docs/development.md](docs/development.md).
 - Architecture notes: [docs/architecture.md](docs/architecture.md).
-- Public privacy notice content: [docs/privacy.md](docs/privacy.md).
+- Public privacy policy: https://arthurnun.es/starscout-extension/privacy
 
 Repository map:
 
@@ -70,7 +70,7 @@ Repository map:
 - The public API is read-only and rate-limited.
 - Operational logs should avoid long-lived per-user browsing history.
 
-See [docs/privacy.md](docs/privacy.md) for the public privacy notice content.
+See https://arthurnun.es/starscout-extension/privacy for the public privacy policy.
 
 ## Attribution
 
