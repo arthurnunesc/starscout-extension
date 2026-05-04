@@ -4,7 +4,7 @@
 
 ## Technical Decisions
 
-- **Product promise**: Show a heuristic suspected non-legit star signal, not a definitive fake-star or legitimate-star judgment.
+- **Product promise**: Show suspected non-legit stars as an estimate, not a definitive fake-star or legitimate-star judgment.
 - **Primary user**: Developers browsing public GitHub repositories.
 - **Supported surface**: Public `github.com/{owner}/{repo}` repository pages only for v1.
 - **Extension stack**: WXT + React.
@@ -36,7 +36,7 @@
   - `suspectedNonLegitPercent`: percentage using current GitHub stars as denominator
   - `breakdown.lowActivity`: low-activity suspicious count
   - `breakdown.lockstep`: lockstep suspicious count
-  - `breakdown.overlap`: count detected by both heuristics
+  - `breakdown.overlap`: count detected by both detection methods
   - `analyzedThrough`: StarScout dataset cutoff date
   - `dataSource`: StarScout/Zenodo metadata
   - `warnings`: list of data-quality warnings
@@ -173,7 +173,7 @@ Add the popover that explains the aggregate result, shows the estimated legitima
 - [x] Popover opens from the badge without navigating away from GitHub.
 - [x] Popover shows current stars, suspected non-legit stars, estimated legitimate stars, and suspected percentage.
 - [x] Popover shows low-activity, lockstep, and overlap breakdowns.
-- [x] Popover explains that results are heuristic and can include false positives.
+- [x] Popover explains that results can include false positives.
 - [x] Popover shows StarScout analyzed-through date.
 - [x] Popover shows warnings for stale/mismatched data when returned by the API.
 - [x] Popover includes visible attribution to StarScout, the paper, and Zenodo.

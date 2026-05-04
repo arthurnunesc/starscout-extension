@@ -10,7 +10,7 @@ The backend is responsible for data correctness. It imports StarScout's Zenodo M
 
 ## Boundaries
 
-- The extension is UI-only and does not compute StarScout heuristics.
+- The extension is UI-only and does not compute StarScout detection methods.
 - The API exposes aggregates only and never exposes suspected actor identities.
 - Postgres is the serving database.
 - The restored MongoDB dump is an import source, not the public serving database.

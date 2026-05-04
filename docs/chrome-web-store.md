@@ -9,14 +9,14 @@ StarScout - See Suspected Non-Legit Stars on GitHub repos
 
 ## Short Description (max 132 characters)
 
-Shows heuristic suspected non-legit star signals on public GitHub repositories.
+Shows suspected non-legit stars on public GitHub repositories.
 
 ## Full Description
 
 StarScout - See Suspected Non-Legit Stars on GitHub repos adds a neutral badge near GitHub's native star count on
 public repository pages. When a repository has been analyzed by the StarScout
-dataset, the badge shows the estimated percentage of suspected non-legit stars
-based on heuristic signals. Clicking, focusing, or hovering the badge opens a
+dataset, the badge shows the estimated percentage of suspected non-legit stars.
+Clicking, focusing, or hovering the badge opens a
 popover with aggregate metrics, including current GitHub stars when available,
 estimated legitimate stars, breakdown categories, and dataset attribution.
 
@@ -34,8 +34,8 @@ Data and methodology attribution: StarScout, ICSE 2026 paper, and Zenodo DOI
 
 ## Single-Purpose Statement
 
-The extension has a single purpose: to display a heuristic suspected non-legit
-star signal badge on public GitHub repository pages.
+The extension has a single purpose: to display a suspected non-legit stars
+badge on public GitHub repository pages.
 
 ## Permission Justification
 

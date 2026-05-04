@@ -4,15 +4,15 @@
 
 Developers use GitHub stars as a trust and popularity signal, but stars can be artificially inflated. Existing GitHub UI shows only the raw star count and gives no indication of whether a repository has suspected non-legitimate star activity.
 
-StarScout provides research-backed heuristics for detecting suspicious GitHub stars, but it is a research/data pipeline, not a browser-friendly product. Users need a lightweight browser extension that surfaces StarScout-derived signals directly on GitHub repository pages.
+StarScout provides research-backed methods for detecting suspicious GitHub stars, but it is a research/data pipeline, not a browser-friendly product. Users need a lightweight browser extension that surfaces StarScout-derived signals directly on GitHub repository pages.
 
 ## Solution
 
 Build a browser extension that shows a compact, neutral badge on public GitHub repository pages. The badge displays the percentage of suspected non-legitimate stars based on StarScout's provided dataset.
 
-The extension will query a hosted backend API. The backend will import StarScout's Zenodo MongoDB dataset, dedupe suspicious stars across heuristics by `repo + actor + starred_at`, aggregate results per repository, fetch/cache current GitHub star counts, and return safe aggregate-only metrics.
+The extension will query a hosted backend API. The backend will import StarScout's Zenodo MongoDB dataset, dedupe suspicious stars across detection methods by `repo + actor + starred_at`, aggregate results per repository, fetch/cache current GitHub star counts, and return safe aggregate-only metrics.
 
-The product must use careful wording: "suspected non-legit stars," "estimated legitimate stars," and "heuristic signal." It must not claim definitive fake-star detection.
+The product must use careful wording: "suspected non-legit stars" and "estimated legitimate stars." It must not claim definitive fake-star detection.
 
 ## User Stories
 
@@ -20,7 +20,7 @@ The product must use careful wording: "suspected non-legit stars," "estimated le
 2. As a developer browsing GitHub, I want the signal to appear directly on repository pages, so that I do not need to leave GitHub.
 3. As a developer browsing GitHub, I want to see the suspected non-legit percentage, so that I can compare repositories of different sizes.
 4. As a developer browsing GitHub, I want to see the estimated legitimate star count, so that I can understand the adjusted popularity signal.
-5. As a developer browsing GitHub, I want the extension to explain that the result is heuristic, so that I do not mistake it for a definitive accusation.
+5. As a developer browsing GitHub, I want the extension to explain that the result can include false positives, so that I do not mistake it for a definitive accusation.
 6. As a developer browsing GitHub, I want the badge to stay visually neutral, so that it informs without sensationalizing.
 7. As a developer browsing GitHub, I want to open a popover with more detail, so that I can understand the low-activity and lockstep breakdown.
 8. As a developer browsing GitHub, I want to see the StarScout data cutoff date, so that I understand whether the data may be stale.
@@ -32,14 +32,14 @@ The product must use careful wording: "suspected non-legit stars," "estimated le
 14. As a maintainer of the service, I want the backend to fetch and cache current GitHub star counts, so that the extension does not need GitHub credentials.
 15. As a maintainer of the service, I want rate limits on the public API, so that the backend is protected from abuse.
 16. As a maintainer of the service, I want repo lookups to account for GitHub repo IDs and names, so that renames are handled more reliably.
-17. As a maintainer of the service, I want StarScout actor-level data deduped before serving, so that the central percentage is not inflated by overlapping heuristics.
+17. As a maintainer of the service, I want StarScout actor-level data deduped before serving, so that the central percentage is not inflated by overlapping detection methods.
 18. As a maintainer of the service, I want only aggregate results exposed publicly, so that suspected users are not publicly listed or shamed.
 19. As a maintainer of the service, I want visible StarScout, paper, and Zenodo attribution, so that the product is transparent and compliant.
 20. As a future implementer, I want a monorepo structure, so that extension, backend, importer, and infra evolve together during v1.
 
 ## Implementation Decisions
 
-- The product will be a heuristic GitHub star integrity badge, not a definitive fake-star detector.
+- The product will be an estimated GitHub star integrity badge, not a definitive fake-star detector.
 - v1 supports public `github.com` repository pages only.
 - v1 targets developers browsing GitHub.
 - The extension will use WXT and React.

@@ -81,7 +81,7 @@ async function refreshBadge() {
   try {
     const result = await fetchStarIntegrity(repo);
     updateBadgeText(badge, result);
-    badge.title = 'Heuristic StarScout suspected non-legit star signal';
+    badge.title = 'StarScout suspected non-legit stars';
 
     installPopoverInteractions(badge, result);
   } catch (error) {
@@ -419,8 +419,8 @@ function analyzedPopoverHtml(result: StarIntegrityResponse): string {
   return `
     <strong style="display:block;margin-bottom:8px;">StarScout integrity signal</strong>
     <p style="margin:0 0 10px;color:var(--fgColor-muted, #57606a);">
-      Heuristic signal only. Results may include false positives and are not proof that
-      any star or account is fake.
+      Suspected non-legit stars are estimates. Results may include false positives
+      and are not proof that any star or account is fake.
     </p>
     ${metricRows([
       ['Current stars', formatNullableNumber(result.currentStars)],

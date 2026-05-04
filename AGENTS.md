@@ -12,7 +12,7 @@
 
 ## Product Language
 
-- Use "suspected non-legit stars" and "heuristic signal."
+- Use "suspected non-legit stars."
 - Do not present results as definitive proof that stars, users, or repositories
   are fake.
 - Include the privacy notice and GitHub Issues support link in every beta

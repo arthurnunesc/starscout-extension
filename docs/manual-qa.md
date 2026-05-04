@@ -8,7 +8,7 @@ StarScout - See Suspected Non-Legit Stars on GitHub repos extension.
 The following were verified during the build process:
 
 - [x] **Manifest name**: `StarScout - See Suspected Non-Legit Stars on GitHub repos`
-- [x] **Manifest description**: `Shows heuristic suspected non-legit star signals on public GitHub repository pages.`
+- [x] **Manifest description**: `Shows suspected non-legit stars on public GitHub repository pages.`
 - [x] **Manifest version**: `0.1.1`
 - [x] **Action default title**: `StarScout - See Suspected Non-Legit Stars on GitHub repos`
 - [x] **Icons present**: 16, 32, 48, 96, 128
@@ -97,5 +97,4 @@ Before submitting, verify consistent terminology across all surfaces:
 
 All should use:
 - "suspected non-legit stars"
-- "heuristic signal"
 - No claims that stars, users, or repositories are definitively fake

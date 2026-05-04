@@ -24,7 +24,6 @@ needed for a direct Chrome Web Store submission.
   Store-ready language.
 - Keep all user-facing language neutral:
   - use “suspected non-legit stars”;
-  - use “heuristic signal”;
   - do not claim that stars, users, or repositories are fake.
 
 ## 2. Create Store-Specific Packaging Command

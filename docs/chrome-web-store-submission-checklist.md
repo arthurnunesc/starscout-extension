@@ -15,7 +15,7 @@ Copy the values from `docs/chrome-web-store.md`:
 | Field | Value |
 |-------|-------|
 | Extension name | StarScout - See Suspected Non-Legit Stars on GitHub repos |
-| Short description | Shows heuristic suspected non-legit star signals on public GitHub repositories. |
+| Short description | Shows suspected non-legit stars on public GitHub repositories. |
 | Full description | See `docs/chrome-web-store.md` |
 | Category | Developer Tools |
 | Language | English |
@@ -59,8 +59,8 @@ Upload from `docs/store-assets/promotional/`:
 
 ## Single-Purpose Statement
 
-> The extension has a single purpose: to display a heuristic suspected non-legit
-> star signal badge on public GitHub repository pages.
+> The extension has a single purpose: to display a suspected non-legit stars
+> badge on public GitHub repository pages.
 
 ## Pre-Submit Verification
 
