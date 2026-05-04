@@ -49,6 +49,8 @@ Upload from `docs/store-assets/promotional/`:
 - [ ] Host permissions:
   - `https://github.com/*` — inject badge on GitHub repo pages
   - `https://starscout-extension-api.arthurnun.es/*` — call StarScout API
+- [ ] Remote code: No. The package uses only bundled local JS/CSS files; API
+  calls and attribution links are not remote executable code.
 - [ ] Data usage answers:
   - Transmit user data: Yes (public `owner/repo` + standard request metadata)
   - Secure transmission: Yes (HTTPS)
@@ -71,6 +73,8 @@ Upload from `docs/store-assets/promotional/`:
 - [ ] Screenshot dimensions are acceptable (1280x800 or 640x400)
 - [ ] Small promotional tile dimensions are acceptable (440x280)
 - [ ] No alarming colors or fake-star imagery in icons, screenshots, or promotional assets
+- [ ] Packaged extension checked for external scripts, remote imports, `eval`,
+  `new Function`, WebAssembly, and `.wasm` files
 - [ ] Backend health, CORS, and endpoints verified
 
 ## Post-Submit

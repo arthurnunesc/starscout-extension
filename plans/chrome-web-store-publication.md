@@ -13,6 +13,8 @@ needed for a direct Chrome Web Store submission.
   - `https://github.com/*`
   - `https://starscout-extension-api.arthurnun.es/*`
 - The extension already defaults to `https://starscout-extension-api.arthurnun.es`.
+- The current packaged extension does not use remote code: no external scripts,
+  remote JS/Wasm imports, `eval`, `new Function`, WebAssembly, or `.wasm` files.
 - Backend CORS and repo-integrity rate limiting already exist in code.
 - Dataset dumps and generated packages are already excluded from git.
 
@@ -124,6 +126,8 @@ needed for a direct Chrome Web Store submission.
   - extension reload works;
   - no badge appears on unsupported GitHub pages;
   - popup language is Store-ready and not beta/dev-only.
+- Record the Chrome Web Store remote-code answer as **No** after confirming the
+  packaged output has only bundled local JS/CSS and no remote JS/Wasm execution.
 - Record the result in `docs/manual-qa.md` or a dedicated release checklist.
 
 ## 9. Chrome Web Store Submission Checklist
@@ -137,6 +141,7 @@ needed for a direct Chrome Web Store submission.
   - short description;
   - full description;
   - permission justifications;
+  - remote-code declaration;
   - data usage declarations.
 - Confirm the Store listing, extension UI, screenshots, README, and privacy
   policy use consistent terminology.

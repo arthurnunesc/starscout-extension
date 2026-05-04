@@ -51,6 +51,20 @@ functionality is implemented through `host_permissions` and content scripts.
   StarScout API and retrieve aggregate star-integrity metrics for the
   repository being viewed.
 
+## Remote Code Answer
+
+Answer **No**.
+
+The packaged MV3 extension does not load or execute JavaScript or WebAssembly
+from remote URLs. Its background service worker, content script, popup script,
+and popup stylesheet are local files included in the extension package. The
+extension does not use `eval`, `new Function`, WebAssembly, remote dynamic
+imports, or external `<script>` URLs.
+
+The `https://starscout-extension-api.arthurnun.es/*` host permission is used for
+HTTPS API data requests only. The Zenodo DOI URL shown in the popover is a
+normal external attribution link, not executable code.
+
 ## Data Usage Answers (Chrome Web Store questionnaire)
 
 - **Do you transmit user data?** Yes — the public `owner/repo` identifier for a
