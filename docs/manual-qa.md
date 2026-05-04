@@ -32,7 +32,7 @@ Store submission:
 1. **Load the unpacked production build**:
    ```sh
    cd extension
-   pnpm zip:chrome-store
+   pnpm zip
    unzip .output/starscout-extension-0.1.2-chrome.zip -d /tmp/starscout-store-test
    ```
    Then open `chrome://extensions`, enable Developer mode, click **Load unpacked**,

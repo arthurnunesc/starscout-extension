@@ -26,13 +26,12 @@ needed for a direct Chrome Web Store submission.
   - use “suspected non-legit stars”;
   - do not claim that stars, users, or repositories are fake.
 
-## 2. Create Store-Specific Packaging Command
+## 2. Use Production Packaging Command
 
-- Add a dedicated Chrome Web Store packaging command, for example
-  `pnpm zip:chrome-store`.
-- Keep local/dev and beta packaging separate from Store packaging.
-- Ensure the Store command sets:
-  - `WXT_PUBLIC_STARSCOUT_API_BASE_URL=https://starscout-extension-api.arthurnun.es`
+- Use the shared Chrome packaging command, `pnpm zip`.
+- Keep local/dev packaging separate from Store packaging.
+- Ensure the command uses:
+  - the production fallback API URL, `https://starscout-extension-api.arthurnun.es`
   - Chrome MV3 output
 - Document the exact generated zip path.
 - After generating the final zip, inspect the packaged manifest and bundled code

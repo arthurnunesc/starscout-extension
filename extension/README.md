@@ -18,10 +18,10 @@ pnpm compile
 Package a Chrome dev-loaded beta for the deployed backend:
 
 ```sh
-pnpm zip:beta
+pnpm zip
 ```
 
-`pnpm zip` also targets the deployed backend by default. Local development uses
+`pnpm zip` targets the deployed backend by default. Local development uses
 `http://127.0.0.1:8000` through `pnpm dev`.
 
 The package is generated at `.output/starscout-extension-0.1.2-chrome.zip`.

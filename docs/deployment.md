@@ -206,11 +206,11 @@ URL is the production API.
 
 ## Package Dev-Loaded Extension
 
-Build the Chrome MV3 zip with the deployed backend URL baked in:
+Build the Chrome MV3 zip for the deployed backend URL:
 
 ```sh
 cd extension
-pnpm zip:beta
+pnpm zip
 ```
 
 The generated package is written to:

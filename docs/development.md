@@ -143,15 +143,15 @@ To build the production zip intended for Chrome Web Store submission:
 
 ```sh
 cd extension
-pnpm zip:chrome-store
+pnpm zip
 ```
 
-This script:
-- Sets `WXT_PUBLIC_STARSCOUT_API_BASE_URL=https://starscout-extension-api.arthurnun.es`
+This command:
+- Uses the production fallback API URL, `https://starscout-extension-api.arthurnun.es`
 - Generates a Chrome MV3 zip under `extension/.output/`
 
 The source fallback API URL is also `https://starscout-extension-api.arthurnun.es`;
-local development uses the script-injected URL above.
+local development uses the dev script's injected URL.
 
 After generating the zip, inspect the packaged manifest and bundled code for
 local-only URLs such as `localhost` or `127.0.0.1` before uploading.
@@ -165,12 +165,12 @@ To package a Chrome dev-loaded beta zip for trusted testers:
 
 ```sh
 cd extension
-pnpm zip:beta
+pnpm zip
 ```
 
-The beta script bakes the deployed API URL into the extension and omits local
-backend host permissions from the shared package. The generated zip is written
-under `extension/.output/`.
+The package uses the deployed API URL by default and omits local backend host
+permissions from the shared package. The generated zip is written under
+`extension/.output/`.
 
 Share the zip with testers together with these steps:
 
@@ -199,7 +199,7 @@ uv run ruff check .
 
 cd ../extension
 pnpm compile
-pnpm zip:chrome-store
+pnpm zip
 ```
 
 Then manually verify the scenarios in [manual-qa.md](manual-qa.md).
