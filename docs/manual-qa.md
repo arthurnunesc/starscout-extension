@@ -9,7 +9,7 @@ The following were verified during the build process:
 
 - [x] **Manifest name**: `StarScout - See Suspected Non-Legit Stars on GitHub repos`
 - [x] **Manifest description**: `Shows suspected non-legit stars on public GitHub repository pages.`
-- [x] **Manifest version**: `0.1.1`
+- [x] **Manifest version**: `0.1.2`
 - [x] **Action default title**: `StarScout - See Suspected Non-Legit Stars on GitHub repos`
 - [x] **Icons present**: 16, 32, 48, 96, 128
 - [x] **Permissions**: empty array (no extension permissions requested)
@@ -33,7 +33,7 @@ Store submission:
    ```sh
    cd extension
    pnpm zip:chrome-store
-   unzip .output/starscout-extension-0.1.1-chrome.zip -d /tmp/starscout-store-test
+   unzip .output/starscout-extension-0.1.2-chrome.zip -d /tmp/starscout-store-test
    ```
    Then open `chrome://extensions`, enable Developer mode, click **Load unpacked**,
    and select `/tmp/starscout-store-test`.

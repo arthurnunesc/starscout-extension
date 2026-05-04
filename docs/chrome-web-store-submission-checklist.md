@@ -4,7 +4,7 @@ Use this checklist when filling out the Chrome Web Store developer dashboard.
 
 ## Package
 
-- [ ] Final zip: `extension/.output/starscout-extension-0.1.1-chrome.zip`
+- [ ] Final zip: `extension/.output/starscout-extension-0.1.2-chrome.zip`
 - [ ] Manifest version: 3
 - [ ] Required icon sizes: 16, 32, 48, 96, 128
 

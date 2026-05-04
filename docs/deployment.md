@@ -216,7 +216,7 @@ pnpm zip:beta
 The generated package is written to:
 
 ```text
-extension/.output/starscout-extension-0.1.1-chrome.zip
+extension/.output/starscout-extension-0.1.2-chrome.zip
 ```
 
 Share the zip with beta testers together with these instructions:
