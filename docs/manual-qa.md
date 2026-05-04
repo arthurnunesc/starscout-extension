@@ -39,61 +39,61 @@ Store submission:
    and select `/tmp/starscout-store-test`.
 
 2. **Analyzed repository**:
-   - [ ] Navigate to `https://github.com/xai-org/grok-1`
-   - [ ] Verify the `StarScout` badge appears near the native star count
-   - [ ] Verify the badge shows a percentage (e.g., `85.53% suspected`)
-   - [ ] Hover, click, and keyboard-focus the badge and verify the popover opens with aggregate metrics
-   - [ ] Verify the badge and popover do not navigate away when clicked
-   - [ ] Verify popover attribution and dataset cutoff are present
+   - [x] Navigate to `https://github.com/xai-org/grok-1`
+   - [x] Verify the `StarScout` badge appears near the native star count
+   - [x] Verify the badge shows a percentage (e.g., `85.53% suspected`)
+   - [x] Hover, click, and keyboard-focus the badge and verify the popover opens with aggregate metrics
+   - [x] Verify the badge and popover do not navigate away when clicked
+   - [x] Verify popover attribution and dataset cutoff are present
 
 3. **Not-analyzed repository**:
-   - [ ] Navigate to `https://github.com/octocat/Hello-World`
-   - [ ] Verify the badge shows `Not analyzed - StarScout`
-   - [ ] Hover the badge and verify the not-analyzed popover opens
+   - [x] Navigate to `https://github.com/octocat/Hello-World`
+   - [x] Verify the badge shows `Not analyzed - StarScout`
+   - [x] Hover the badge and verify the not-analyzed popover opens
 
 4. **Unsupported GitHub pages**:
-   - [ ] Navigate to `https://github.com/orgs/community` or `https://github.com/topics`
-   - [ ] Verify no StarScout badge appears
-   - [ ] Navigate to `https://github.com/xai-org` (user/org profile, no repo)
-   - [ ] Verify no badge appears
-   - [ ] Navigate to a private repository page available to the tester
-   - [ ] Verify no StarScout badge appears and no StarScout API request is sent
+   - [x] Navigate to `https://github.com/orgs/community` or `https://github.com/topics`
+   - [x] Verify no StarScout badge appears
+   - [x] Navigate to `https://github.com/xai-org` (user/org profile, no repo)
+   - [x] Verify no badge appears
+   - [x] Navigate to a private repository page available to the tester
+   - [x] Verify no StarScout badge appears and no StarScout API request is sent
 
 5. **SPA navigation**:
-   - [ ] Start on `https://github.com/xai-org/grok-1`
-   - [ ] Click a link to `https://github.com/octocat/Hello-World` without reloading
-   - [ ] Verify the badge updates correctly (or disappears if not a repo page)
-   - [ ] Navigate back and verify the badge reappears
+   - [x] Start on `https://github.com/xai-org/grok-1`
+   - [x] Click a link to `https://github.com/octocat/Hello-World` without reloading
+   - [x] Verify the badge updates correctly (or disappears if not a repo page)
+   - [x] Navigate back and verify the badge reappears
 
 6. **Extension popup**:
-   - [ ] Click the extension icon in the Chrome toolbar
-   - [ ] Verify the popup title is `StarScout - See Suspected Non-Legit Stars on GitHub repos`
-   - [ ] Verify popup text does not contain "beta" or "dev-loaded"
-   - [ ] Verify popup language is neutral
+   - [x] Click the extension icon in the Chrome toolbar
+   - [x] Verify the popup title is `StarScout - See Suspected Non-Legit Stars on GitHub repos`
+   - [x] Verify popup text does not contain "beta" or "dev-loaded"
+   - [x] Verify popup language is neutral
 
 7. **Extension reload**:
-   - [ ] Open `chrome://extensions`
-   - [ ] Click the reload icon on StarScout - See Suspected Non-Legit Stars on GitHub repos
-   - [ ] Return to a GitHub repo page
-   - [ ] Verify the badge reappears after reload
+   - [x] Open `chrome://extensions`
+   - [x] Click the reload icon on StarScout - See Suspected Non-Legit Stars on GitHub repos
+   - [x] Return to a GitHub repo page
+   - [x] Verify the badge reappears after reload
 
 8. **Screenshots review**:
-   - [ ] Review `docs/store-assets/screenshots/analyzed-repo-desktop.png`
-   - [ ] Review `docs/store-assets/screenshots/analyzed-repo-popover.png`
-   - [ ] Review `docs/store-assets/screenshots/not-analyzed-repo.png`
-   - [ ] Review `docs/store-assets/screenshots/analyzed-repo-low-signal.png`
-   - [ ] Confirm screenshots do not imply proof of fake stars, fake users, or fake repositories
-   - [ ] Confirm screenshots are 1280x800 or 640x400
+   - [x] Review `docs/store-assets/screenshots/analyzed-repo-desktop.png`
+   - [x] Review `docs/store-assets/screenshots/analyzed-repo-popover.png`
+   - [x] Review `docs/store-assets/screenshots/not-analyzed-repo.png`
+   - [x] Review `docs/store-assets/screenshots/analyzed-repo-low-signal.png`
+   - [x] Confirm screenshots do not imply proof of fake stars, fake users, or fake repositories
+   - [x] Confirm screenshots are 1280x800 or 640x400
 
 ## Store Listing Consistency Check
 
 Before submitting, verify consistent terminology across all surfaces:
 
-- [ ] Extension UI (badge, popover, popup)
-- [ ] `docs/chrome-web-store.md` listing copy
-- [ ] Public privacy policy at `https://arthurnun.es/projects/starscout-extension/privacy`
-- [ ] `README.md`
-- [ ] Screenshots
+- [x] Extension UI (badge, popover, popup)
+- [x] `docs/chrome-web-store.md` listing copy
+- [x] Public privacy policy at `https://arthurnun.es/projects/starscout-extension/privacy`
+- [x] `README.md`
+- [x] Screenshots
 
 All should use:
 - "suspected non-legit stars"
