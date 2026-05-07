@@ -15,7 +15,7 @@ Type-check without building:
 pnpm compile
 ```
 
-Package a Chrome dev-loaded beta for the deployed backend:
+Package a Chrome extension zip for local verification or Store updates:
 
 ```sh
 pnpm zip
@@ -25,14 +25,6 @@ pnpm zip
 `http://127.0.0.1:8000` through `pnpm dev`.
 
 The package is generated at `.output/starscout-extension-0.1.2-chrome.zip`.
-
-Beta tester installation:
-
-1. Unzip the package.
-2. Open `chrome://extensions`.
-3. Enable Developer mode.
-4. Click Load unpacked.
-5. Select the unzipped extension directory.
 
 ## Manual Verification
 

@@ -213,22 +213,13 @@ cd extension
 pnpm zip
 ```
 
-The generated package is written to:
+The generated package for Store updates is written to:
 
 ```text
 extension/.output/starscout-extension-0.1.2-chrome.zip
 ```
 
-Share the zip with beta testers together with these instructions:
-
-1. Unzip the package locally.
-2. Open `chrome://extensions`.
-3. Enable Developer mode.
-4. Choose Load unpacked.
-5. Select the unzipped extension directory.
-6. Open a public GitHub repository page and verify the `StarScout` badge appears.
-
 For Firefox, use `WXT_PUBLIC_STARSCOUT_API_BASE_URL="https://starscout-extension-api.arthurnun.es" pnpm zip:firefox`.
 
-See [development.md](development.md#packaging) for tester install, update, and
-uninstall guidance.
+See [development.md](development.md#packaging) for packaging and verification
+guidance.

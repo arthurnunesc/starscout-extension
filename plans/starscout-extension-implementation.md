@@ -221,7 +221,7 @@ Package the backend, Postgres, and operational configuration for a Docker Compos
 
 ### What to build
 
-Prepare the project for a dev-loaded beta with clear installation, usage, limitation, attribution, and manual QA documentation.
+Prepare the project for public distribution with clear installation, usage, limitation, attribution, and manual QA documentation.
 
 ### Acceptance criteria
 

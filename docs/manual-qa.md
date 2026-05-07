@@ -17,7 +17,7 @@ The following were verified during the build process:
 - [x] **No local-only URLs in bundled code**: no `localhost` or `127.0.0.1` references found
 - [x] **Production API URL baked in**: `https://starscout-extension-api.arthurnun.es`
 - [x] **Popup title**: `StarScout - See Suspected Non-Legit Stars on GitHub repos` (not "Default Popup Title")
-- [x] **Popup language**: Store-ready, no "dev-loaded beta" wording
+- [x] **Popup language**: Store-ready, no pre-publication wording
 - [x] **Backend health**: `GET /health` returns 200 `{"status":"ok","service":"StarScout API"}`
 - [x] **Analyzed repo endpoint**: `GET /repos/xai-org/grok-1/star-integrity` returns 200 with aggregate metrics
 - [x] **Not-analyzed repo endpoint**: `GET /repos/octocat/Hello-World/star-integrity` returns 200 with `analyzed: false`
@@ -27,7 +27,7 @@ The following were verified during the build process:
 ## Required Manual Verification
 
 The following must be verified by loading the built extension in Chrome before
-Store submission:
+Store updates:
 
 1. **Load the unpacked production build**:
    ```sh
@@ -68,7 +68,7 @@ Store submission:
 6. **Extension popup**:
    - [x] Click the extension icon in the Chrome toolbar
    - [x] Verify the popup title is `StarScout - See Suspected Non-Legit Stars on GitHub repos`
-   - [x] Verify popup text does not contain "beta" or "dev-loaded"
+   - [x] Verify popup text does not contain pre-publication wording
    - [x] Verify popup language is neutral
 
 7. **Extension reload**:

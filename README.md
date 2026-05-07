@@ -6,6 +6,12 @@ star signals on public GitHub repository pages.
 The extension adds a `StarScout` badge near GitHub's native repository star
 count and opens a details popover with aggregate metrics and attribution.
 
+<p>
+  <a href="https://chromewebstore.google.com/detail/starscout-see-suspected-n/ddnenpmampfmhlndeebggeoaehjmdmnb">
+    <img alt="Available in the Chrome Web Store" src="https://developer.chrome.com/static/docs/webstore/branding/image/YT2Grfi9vEBa2wAPzhWa.png" width="248">
+  </a>
+</p>
+
 ### ⚠️ Results are bounded by the StarScout dataset cutoff, currently `2025-01-01`.
 
 | Desktop | Mobile |
@@ -14,17 +20,13 @@ count and opens a details popover with aggregate metrics and attribution.
 
 ## Usage
 
-1. Download the release zip from GitHub.
-2. Unzip it locally.
-3. Open `chrome://extensions`.
-4. Enable Developer mode.
-5. Choose Load unpacked.
-6. Select the unzipped extension directory.
-7. Open a public GitHub repository page and look for the `StarScout` badge near
+1. Install StarScout from the
+   [Chrome Web Store](https://chromewebstore.google.com/detail/starscout-see-suspected-n/ddnenpmampfmhlndeebggeoaehjmdmnb).
+2. Open a public GitHub repository page and look for the `StarScout` badge near
    GitHub's native star control.
 
 You can also follow the steps in the [Packaging](docs/development.md#packaging)
-section of `development.md` to build it yourself.
+section of `development.md` to build a local package yourself.
 
 ## What It Does
 

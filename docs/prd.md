@@ -75,7 +75,6 @@ The product must use careful wording: "suspected non-legit stars" and "estimated
 - Supporting GitHub Enterprise Server.
 - Supporting GitHub search, trending, topic, or organization listing pages.
 - Showing actor-level suspected stargazer evidence.
-- Publishing to Chrome Web Store in v1.
 - Building dashboards, accounts, alerts, or paid features.
 - Claiming that stars are definitively fake or legitimate.
 - Replacing GitHub's native star count.

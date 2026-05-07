@@ -1,7 +1,9 @@
 # Chrome Web Store Listing
 
-This document contains the content and values needed for the Chrome Web Store
-dashboard submission.
+This document tracks the published Chrome Web Store listing content and values.
+
+Published listing:
+https://chromewebstore.google.com/detail/starscout-see-suspected-n/ddnenpmampfmhlndeebggeoaehjmdmnb
 
 ## Extension Name
 

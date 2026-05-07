@@ -139,7 +139,7 @@ verification steps.
 
 ### Chrome Web Store Release
 
-To build the production zip intended for Chrome Web Store submission:
+To build the production zip intended for Chrome Web Store updates:
 
 ```sh
 cd extension
@@ -159,38 +159,7 @@ local-only URLs such as `localhost` or `127.0.0.1` before uploading.
 The exact generated zip path is:
 `extension/.output/starscout-extension-<version>-chrome.zip`
 
-### Dev-Loaded Beta (for local testing)
-
-To package a Chrome dev-loaded beta zip for trusted testers:
-
-```sh
-cd extension
-pnpm zip
-```
-
-The package uses the deployed API URL by default and omits local backend host
-permissions from the shared package. The generated zip is written under
-`extension/.output/`.
-
-Share the zip with testers together with these steps:
-
-1. Unzip the package locally.
-2. Open `chrome://extensions`.
-3. Enable Developer mode.
-4. Choose Load unpacked.
-5. Select the unzipped extension directory.
-6. Open a public GitHub repository page.
-7. Verify the `StarScout` badge appears near GitHub's native star control.
-
-Dev-loaded packages do not auto-update. To update, download the new beta zip,
-unzip it into a fresh local directory, open `chrome://extensions`, remove the
-previous StarScout beta or click Reload after replacing the folder, and refresh
-GitHub repository pages.
-
-To uninstall, open `chrome://extensions`, find `StarScout - See Suspected Non-Legit Stars on GitHub repos`, and
-click Remove.
-
-Before sharing a beta or submitting to the Store, run the verification checklist:
+Before submitting a Store update, run the verification checklist:
 
 ```sh
 cd backend
@@ -212,12 +181,11 @@ Public release hygiene:
   and redistribution terms are confirmed.
 - Keep public wording neutral: suspected non-legit star signal, not proof of fake
   stars.
-- Include the privacy notice and GitHub Issues support link in every beta
-  announcement.
+- Keep the Store listing, privacy notice, and GitHub Issues support link current.
 
 ## Verification
 
 - Backend tests: `cd backend && uv run pytest`
 - Backend lint: `cd backend && uv run ruff check .`
 - Extension type-check: `cd extension && pnpm compile`
-- Manual beta QA: [manual-qa.md](manual-qa.md)
+- Manual QA: [manual-qa.md](manual-qa.md)
